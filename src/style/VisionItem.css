@@ -1,0 +1,17 @@
+.vision-item {
+    border: 1px solid #ddd;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+  }
+  .vision-item h3 {
+    margin: 0;
+  }
+  .vision-item button {
+    margin-right: 0.5rem;
+    padding: 0.5rem;
+    background-color: #ff8b94;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }

@@ -1,0 +1,98 @@
+/* Contenedor principal */
+.preguntas-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f0f0f0; /* Gris claro */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Título */
+  .preguntas-titulo {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Botón para crear nueva pregunta */
+  .btn-crear {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4c63af; /* Azul suave */
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-crear:hover {
+    background-color: #3a4f8c; /* Azul más oscuro al hacer hover */
+  }
+  
+  /* Mensaje cuando no hay preguntas */
+  .preguntas-vacio {
+    text-align: center;
+    color: #777;
+    font-size: 16px;
+  }
+  
+  /* Tabla de preguntas */
+  .preguntas-tabla {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff; /* Fondo blanco */
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .preguntas-tabla th,
+  .preguntas-tabla td {
+    padding: 12px;
+    text-align: left;
+  }
+  
+  .preguntas-tabla th {
+    background-color: #e0e0e0; /* Gris claro para el encabezado */
+    color: #333;
+    font-weight: 600;
+  }
+  
+  .preguntas-tabla tbody tr {
+    border-bottom: 1px solid #e0e0e0; /* Borde gris claro */
+  }
+  
+  .preguntas-tabla tbody tr:last-child {
+    border-bottom: none;
+  }
+  
+  .preguntas-tabla tbody tr:hover {
+    background-color: #f5f5f5; /* Gris muy claro al hacer hover */
+  }
+  
+  /* Botones de acciones */
+  .acciones {
+    display: flex;
+    gap: 10px;
+    color:#3a4f8c;
+
+  }
+  
+  .btn-accion {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: color 0.3s ease;
+    background-color: #3a4f8c; /* Fondo transparente */
+    color: #f5f5f5; /* Color de texto gris oscuro */
+    text-decoration: underline; /* Subrayado para un estilo minimalista */
+  }
+  
+  .btn-accion:hover {
+    color: #000; /* Texto más oscuro al hacer hover */
+  }

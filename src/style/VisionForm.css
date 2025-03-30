@@ -1,0 +1,17 @@
+.vision-form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+  }
+  .vision-form input,
+  .vision-form textarea {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+  }
+  .vision-form button {
+    padding: 0.5rem;
+    background-color: #75c9b7;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }

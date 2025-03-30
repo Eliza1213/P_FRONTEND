@@ -1,0 +1,106 @@
+/* Estilos generales para el contenedor */
+.contactos-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .contactos-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* Estilos para el formulario */
+  .contactos-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  /* Estilos para los inputs */
+  .contactos-container input[type="email"],
+  .contactos-container input[type="text"],
+  .contactos-container textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+  
+  .contactos-container input[type="email"]:focus,
+  .contactos-container input[type="text"]:focus,
+  .contactos-container textarea:focus {
+    border-color: #003366; /* Azul marino para el borde al enfocar */
+    outline: none;
+  }
+  
+  /* Estilos para los botones */
+  .contactos-container button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    background-color: #003366; /* Azul marino */
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .contactos-container button:hover {
+    background-color: #002366; /* Azul marino más oscuro al pasar el mouse */
+  }
+  
+  /* Estilos para el botón de eliminar */
+  .contactos-container button[type="button"] {
+    background-color: #3a4f8c; /* Rojo para el botón de eliminar */
+  }
+  
+  .contactos-container button[type="button"]:hover {
+    background-color: #3a4f8c; /* Rojo más oscuro al pasar el mouse */
+  }
+  
+  /* Estilos para las redes sociales */
+  .red-social-item {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .red-social-item input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .red-social-item button {
+    padding: 8px 12px;
+    font-size: 12px;
+    background-color: #003366; /* Azul marino para botones de redes sociales */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .red-social-item button:hover {
+    background-color: #3a4f8c; /* Azul marino más oscuro al pasar el mouse */
+  }
+  
+  /* Estilos para el botón de agregar red social */
+  .agregar-btn {
+    background-color: #3a4f8c; /* Azul marino */
+  }
+  
+  .agregar-btn:hover {
+    background-color: #3a4f8c; /* Azul marino más oscuro al pasar el mouse */
+  }

@@ -1,0 +1,42 @@
+.sidebar-user {
+  width: 100%;
+  height: calc(100vh - 120px); /* Ajuste de altura */
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.sidebar-user ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-user li {
+  margin: 12px 0;
+}
+
+.sidebar-user a {
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+}
+
+.sidebar-user a:hover {
+  background: #2b6014;
+  transform: translateX(5px);
+}
+
+/* Scrollbar personalizada */
+.sidebar-user::-webkit-scrollbar {
+  width: 5px;
+}
+
+.sidebar-user::-webkit-scrollbar-thumb {
+  background: #2b6014;
+  border-radius: 10px;
+}

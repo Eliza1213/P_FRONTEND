@@ -1,0 +1,120 @@
+/* Estilos generales */
+.misiones-container {
+  padding: 2rem;
+  background-color: #f7fff7; /* Fondo blanco verdoso */
+  min-height: 100vh;
+}
+
+.misiones-titulo {
+  font-size: 2rem;
+  color: #1a535c; /* Verde oscuro */
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* Botón de crear */
+.btn-crear {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: #3cb371; /* Verde turquesa */
+  color: #f7fff7; /* Blanco verdoso */
+  text-decoration: none;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  margin-bottom: 1.5rem;
+}
+
+.btn-crear:hover {
+  background-color: #228B22; /* Verde fuerte */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Mensaje de vacío */
+.misiones-vacio {
+  text-align: center;
+  color: #666;
+  font-size: 1.2rem;
+}
+
+/* Estilos de la tabla */
+.misiones-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff; /* Fondo blanco */
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.misiones-tabla th,
+.misiones-tabla td {
+  padding: 1rem;
+  text-align: left;
+}
+
+.misiones-tabla th {
+  background-color: #3cb371; /* Verde turquesa */
+  color: #f7fff7; /* Blanco verdoso */
+  font-weight: 600;
+}
+
+.misiones-tabla tr:nth-child(even) {
+  background-color: #3cb371; /* Verde claro */
+}
+
+.misiones-tabla tr:hover {
+  background-color: #3cb371; /* Verde más claro */
+  transition: background-color 0.3s ease;
+}
+
+/* Botones de acciones */
+.acciones {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-accion {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-accion:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-actualizar {
+  background-color: #3cb371; /* Naranja */
+  color: white;
+}
+
+.btn-actualizar:hover {
+  background-color: #3cb371; /* Naranja oscuro */
+}
+
+.btn-eliminar {
+  background-color: #3cb371; /* Rojo */
+  color: white;
+}
+
+.btn-eliminar:hover {
+  background-color: #3cb371; /* Rojo oscuro */
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .misiones-tabla {
+    display: block;
+    overflow-x: auto;
+  }
+
+  .btn-accion {
+    display: block;
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+}

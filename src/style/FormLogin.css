@@ -1,0 +1,93 @@
+:root {
+    --primary-color: #a8e6cf; /* Verde claro */
+    --secondary-color: #75c9b7; /* Verde más oscuro */
+    --accent-color: #ff8b94; /* Color de acento (rosado) */
+    --text-color: #333; /* Color de texto principal */
+    --background-color: #f0f7f4; /* Fondo claro */
+    --hover-color: #5cbdaa; /* Verde para hover */
+    --border-color: #ddd; /* Color de bordes */
+  }
+  /* FormLogin.css */
+.form-login {
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  .form-login h2 {
+    text-align: center;
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+  }
+  
+  .form-login input {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 1rem;
+    color: var(--text-color);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .form-login input:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 5px rgba(117, 201, 183, 0.5);
+    outline: none;
+  }
+  
+  .form-login button {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .form-login button:hover {
+    background-color: var(--hover-color);
+    transform: scale(1.05);
+  }
+  
+  /* Animaciones */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  /* Fondo temático */
+body {
+  background-color: var(--background-color);
+  background-image: url("/ruta/a/imagen-de-tortuga.jpg");
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ícono de tortuga */
+.form-login h2::before {
+  content: "🐢";
+  display: block;
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}

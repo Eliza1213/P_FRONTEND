@@ -1,0 +1,57 @@
+/* Contenedor principal */
+.visiones-container {
+    max-width: 500px; /* Limita el ancho del contenedor */
+    margin: 20px auto; /* Centra el contenedor */
+    padding: 20px;
+    background-color: #f9f9f9; /* Fondo gris claro */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  }
+  
+  /* Título */
+  .visiones-container h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Campos de entrada */
+  .visiones-container input,
+  .visiones-container textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .visiones-container textarea {
+    height: 100px; /* Altura fija para el textarea */
+    resize: vertical; /* Permite redimensionar verticalmente */
+  }
+  
+  /* Botón */
+  .visiones-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4c63af; /* Color azul suave */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .visiones-container button:hover {
+    background-color: #3a4f8c; /* Color azul más oscuro al hacer hover */
+  }
+  
+  /* Mensaje de error */
+  .visiones-container p {
+    color: red;
+    text-align: center;
+    margin-bottom: 15px;
+  }
