@@ -1,0 +1,180 @@
+/* Variables para consistencia con el tema */
+:root {
+    --primary-color: #2a7f68;
+    --primary-hover: #1d6552;
+    --secondary-color: #e7f6f2;
+    --cancel-color: #6c757d;
+    --cancel-hover: #5a6268;
+    --error-color: #dc3545;
+    --success-color: #28a745;
+    --text-color: #333;
+    --light-text: #6c757d;
+    --border-color: #ced4da;
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --transition-speed: 0.3s;
+  }
+  
+  /* Página de métodos de recuperación con fondo */
+  .recovery-method-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    background-image: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 1rem;
+  }
+  
+  /* Contenedor principal */
+  .recovery-method-container {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: var(--box-shadow);
+    width: 100%;
+    max-width: 700px;
+    padding: 2.5rem;
+    animation: fadeIn 0.5s ease;
+  }
+  
+  /* Animación de entrada */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Encabezado */
+  .recovery-method-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+  
+  .recovery-method-header h1 {
+    color: var(--primary-color);
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    position: relative;
+  }
+  
+  .recovery-method-header h1::after {
+    content: '';
+    position: absolute;
+    bottom: -0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background-color: var(--primary-color);
+    border-radius: 2px;
+  }
+  
+  .recovery-method-header p {
+    color: var(--light-text);
+    font-size: 1.1rem;
+    margin-top: 1rem;
+  }
+  
+  /* Tarjetas de métodos */
+  .recovery-methods {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+  }
+  
+  .method-card {
+    text-decoration: none;
+    color: var(--text-color);
+    background-color: #fff;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    padding: 1.5rem;
+    transition: all var(--transition-speed) ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  .method-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-color: var(--primary-color);
+  }
+  
+  .method-icon {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    background-color: var(--secondary-color);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all var(--transition-speed) ease;
+  }
+  
+  .method-card:hover .method-icon {
+    background-color: var(--primary-color);
+    color: white;
+  }
+  
+  .method-content h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.8rem;
+    color: var(--text-color);
+  }
+  
+  .method-content p {
+    font-size: 0.95rem;
+    color: var(--light-text);
+    line-height: 1.5;
+  }
+  
+  /* Enlaces de acción */
+  .action-links {
+    text-align: center;
+    margin-top: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #eee;
+  }
+  
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color var(--transition-speed) ease;
+  }
+  
+  .back-link:hover {
+    color: var(--primary-hover);
+    text-decoration: underline;
+  }
+  
+  /* Responsive */
+  @media (max-width: 576px) {
+    .recovery-method-container {
+      padding: 1.5rem;
+    }
+    
+    .recovery-method-header h1 {
+      font-size: 1.75rem;
+    }
+    
+    .recovery-methods {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  }

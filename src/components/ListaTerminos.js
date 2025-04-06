@@ -1,21 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Swal from "sweetalert2"; // Importa SweetAlert2
-import "../style/Lista.css"; // Importa el archivo CSS compartido
+import Swal from "sweetalert2";
+import "../style/Lista.css";
 
 const ListarTerminos = () => {
   const [terminos, setTerminos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [filtro, setFiltro] = useState("");
 
   useEffect(() => {
     const fetchTerminos = async () => {
       try {
+        setLoading(true);
         const response = await fetch("http://localhost:4000/api/terminos");
         if (!response.ok) throw new Error("Error al obtener términos");
         const data = await response.json();
-        console.log("Términos obtenidos:", data); // Depuración
         setTerminos(data);
+        setLoading(false);
       } catch (error) {
         console.error("Error:", error);
+        Swal.fire({
+          title: "Error",
+          text: "No se pudieron cargar los términos y condiciones",
+          icon: "error",
+          confirmButtonColor: "#003366",
+        });
+        setLoading(false);
       }
     };
 
@@ -23,14 +33,13 @@ const ListarTerminos = () => {
   }, []);
 
   const handleEliminar = async (id) => {
-    // Mostrar confirmación con SweetAlert2
     const confirmacion = await Swal.fire({
       title: "¿Estás seguro?",
       text: "¡No podrás revertir esto!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#003366", // Azul marino
-      cancelButtonColor: "#dc3545", // Rojo
+      confirmButtonColor: "#003366",
+      cancelButtonColor: "#dc3545",
       confirmButtonText: "Sí, eliminar",
       cancelButtonText: "Cancelar",
     });
@@ -39,52 +48,78 @@ const ListarTerminos = () => {
       try {
         const response = await fetch(`http://localhost:4000/api/terminos/${id}`, {
           method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         });
 
         if (response.ok) {
           setTerminos(terminos.filter((termino) => termino._id !== id));
-
-          // Mostrar alerta de éxito con SweetAlert2
           Swal.fire({
             title: "¡Eliminado!",
-            text: "El término ha sido eliminado.",
+            text: "El término ha sido eliminado correctamente.",
             icon: "success",
-            confirmButtonColor: "#003366", // Azul marino
+            confirmButtonColor: "#003366",
           });
         } else {
-          console.error("Error al eliminar el término");
-
-          // Mostrar alerta de error con SweetAlert2
-          Swal.fire({
-            title: "Error",
-            text: "Hubo un problema al eliminar el término.",
-            icon: "error",
-            confirmButtonColor: "#003366", // Azul marino
-          });
+          throw new Error("Error al eliminar el término");
         }
       } catch (error) {
         console.error("Error:", error);
-
-        // Mostrar alerta de error con SweetAlert2
         Swal.fire({
           title: "Error",
           text: "Hubo un problema al eliminar el término.",
           icon: "error",
-          confirmButtonColor: "#003366", // Azul marino
+          confirmButtonColor: "#003366",
         });
       }
     }
   };
 
+  // Filtrar términos
+  const terminosFiltrados = terminos.filter(termino => 
+    termino.titulo.toLowerCase().includes(filtro.toLowerCase())
+  );
+
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="spinner"></div>
+        <p>Cargando términos y condiciones...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="preguntas-container">
-      <h2 className="preguntas-titulo">Listado de Términos y condiciones</h2>
-      {/* Botón para crear un nuevo término */}
-      <Link to="/admin/terminos/crear" className="btn-crear">
-        ➕ Crear Nuevo Término
-      </Link>
-      {terminos.length === 0 ? (
-        <p className="preguntas-vacio">No hay términos disponibles</p>
+      <div className="preguntas-header">
+        <h2 className="preguntas-titulo">Gestión de Términos y Condiciones</h2>
+        <p className="preguntas-descripcion">
+          Administra los términos y condiciones de TortuTerra
+        </p>
+      </div>
+      
+      <div className="acciones-header">
+        <div className="filtro-busqueda">
+          <input
+            type="text"
+            placeholder="Buscar por título..."
+            value={filtro}
+            onChange={(e) => setFiltro(e.target.value)}
+            className="filtro-input"
+          />
+        </div>
+        <Link to="/admin/terminos/crear" className="btn-crear">
+          <i className="fas fa-plus"></i> Crear Nuevo Término
+        </Link>
+      </div>
+
+      {terminosFiltrados.length === 0 ? (
+        <div className="preguntas-vacio">
+          {filtro ? 
+            "No se encontraron términos que coincidan con la búsqueda" : 
+            "No hay términos disponibles"}
+        </div>
       ) : (
         <table className="preguntas-tabla">
           <thead>
@@ -94,7 +129,7 @@ const ListarTerminos = () => {
             </tr>
           </thead>
           <tbody>
-            {terminos.map((termino) => (
+            {terminosFiltrados.map((termino) => (
               <tr key={termino._id} className="pregunta-fila">
                 <td>{termino.titulo}</td>
                 <td className="acciones">
@@ -102,13 +137,13 @@ const ListarTerminos = () => {
                     to={`/admin/terminos/actualizar/${termino._id}`}
                     className="btn-accion btn-actualizar"
                   >
-                    Actualizar
+                    <i className="fas fa-edit"></i> Editar
                   </Link>
                   <button
                     onClick={() => handleEliminar(termino._id)}
                     className="btn-accion btn-eliminar"
                   >
-                    Eliminar
+                    <i className="fas fa-trash-alt"></i> Eliminar
                   </button>
                 </td>
               </tr>

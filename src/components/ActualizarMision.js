@@ -1,88 +1,148 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import "../style/Actualizar.css"; // Importa el archivo CSS
+import "../style/Lista.css";
 
 const ActualizarMision = () => {
-  const { id } = useParams(); // Obtiene el ID de la misión desde la URL
-  const navigate = useNavigate(); // Para redirigir después de actualizar
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [titulo, setTitulo] = useState("");
   const [descripcion, setDescripcion] = useState("");
-  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     const fetchMision = async () => {
       try {
-        console.log("Obteniendo misión con ID:", id); // Depuración
+        setLoading(true);
         const response = await fetch(`http://localhost:4000/api/misiones/${id}`);
         if (!response.ok) throw new Error("Error al obtener la misión");
+        
         const data = await response.json();
-        console.log("Misión obtenida:", data); // Depuración
         setTitulo(data.titulo);
         setDescripcion(data.descripcion);
+        setLoading(false);
       } catch (error) {
-        console.error(error);
-        setError("Error al obtener la misión.");
+        console.error("Error:", error);
+        Swal.fire({
+          title: "Error",
+          text: "No se pudo cargar la información de la misión",
+          icon: "error",
+          confirmButtonColor: "#8bc34a",
+        }).then(() => {
+          navigate("/admin/misiones");
+        });
       }
     };
 
     fetchMision();
-  }, [id]);
+  }, [id, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const updatedMision = { titulo, descripcion };
+    
+    if (!titulo.trim() || !descripcion.trim()) {
+      Swal.fire({
+        title: "Error",
+        text: "Todos los campos son obligatorios",
+        icon: "error",
+        confirmButtonColor: "#8bc34a",
+      });
+      return;
+    }
 
     try {
-      console.log("Enviando solicitud PUT:", updatedMision); // Depuración
+      setSaving(true);
       const response = await fetch(`http://localhost:4000/api/misiones/${id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedMision),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({ titulo, descripcion }),
       });
 
-      if (response.ok) {
-        Swal.fire({
-          icon: "success",
-          title: "Éxito",
-          text: "Misión actualizada con éxito",
-          confirmButtonText: "Aceptar",
-        }).then(() => {
-          navigate("/admin/misiones/listar"); // Redirige a la lista de misiones
-        });
-      } else {
-        throw new Error("Error al actualizar misión");
+      if (!response.ok) {
+        throw new Error("Error al actualizar la misión");
       }
-    } catch (error) {
-      console.error("Error en la actualización:", error);
+
       Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "Ocurrió un problema al actualizar la misión",
+        title: "¡Actualizado!",
+        text: "La misión se ha actualizado correctamente",
+        icon: "success",
+        confirmButtonColor: "#8bc34a",
+      }).then(() => {
+        navigate("/admin/misiones");
       });
+    } catch (error) {
+      console.error("Error:", error);
+      Swal.fire({
+        title: "Error",
+        text: "Hubo un problema al actualizar la misión",
+        icon: "error",
+        confirmButtonColor: "#8bc34a",
+      });
+    } finally {
+      setSaving(false);
     }
   };
 
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="spinner"></div>
+        <p>Cargando información de la misión...</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="contactos-container">
-      <h2>Actualizar Misión</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+    <div className="formulario-container">
+      <div className="formulario-header">
+        <h2 className="formulario-titulo">Actualizar Misión</h2>
+        <p className="formulario-descripcion">
+          Modifica la información de la misión existente
+        </p>
+      </div>
+
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Título"
-          value={titulo}
-          onChange={(e) => setTitulo(e.target.value)}
-          required
-        />
-        <textarea
-          placeholder="Descripción"
-          value={descripcion}
-          onChange={(e) => setDescripcion(e.target.value)}
-          required
-        />
-        <button type="submit">Actualizar Misión</button>
+        <div className="formulario-campo">
+          <label htmlFor="titulo" className="formulario-label">
+            Título
+          </label>
+          <input
+            type="text"
+            id="titulo"
+            value={titulo}
+            onChange={(e) => setTitulo(e.target.value)}
+            className="formulario-input"
+            placeholder="Escribe el título de la misión"
+            required
+          />
+        </div>
+
+        <div className="formulario-campo">
+          <label htmlFor="descripcion" className="formulario-label">
+            Descripción
+          </label>
+          <textarea
+            id="descripcion"
+            value={descripcion}
+            onChange={(e) => setDescripcion(e.target.value)}
+            className="formulario-textarea"
+            placeholder="Escribe la descripción detallada de la misión"
+            required
+          />
+        </div>
+
+        <div className="formulario-botones">
+          <Link to="/admin/misiones" className="btn-cancelar">
+            Cancelar
+          </Link>
+          <button type="submit" className="btn-guardar" disabled={saving}>
+            {saving ? "Guardando..." : "Actualizar Misión"}
+          </button>
+        </div>
       </form>
     </div>
   );

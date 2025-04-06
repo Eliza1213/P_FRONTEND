@@ -23,7 +23,8 @@ import UserProfile from "./components/userProfile";
 import MisionesVisualizar from "./components/MisionesVisualizar";
 import MisionesPublicas from "./components/MisionesPublica";
 
-import InformacionVisualizar from "./components/InformacionVisualizar";
+import InformacionPublicas from "./components/InformacionPublica";
+import ProductosList from "./components/ProductosList"; // Importamos el nuevo componente
 import ProductosVisualizar from "./components/ProductosVisualizar";
 import VisionesVisualizar from "./components/VisionesVisualizar";
 import VisionesPublicas from "./components/VisionesPublica";
@@ -32,16 +33,28 @@ import ContactosPublicas from "./components/ContactoPublica";
 import PoliticasVisualizar from "./components/PoliticasVisualizar";
 import PoliticasPublicas from "./components/PoliticasPublica";
 import PreguntasVisualizar from "./components/PreguntasVisualizar";
+import PreguntasPublicas from "./components/PreguntasPublicas";
 import TerminosVisualizar from "./components/TerminosVisualizar";
 import TerminosPublicas from "./components/TerminosPublica";
+import ActivarDispositivo from "./components/FormActivarIOT";
+import DispositivoDetalle from "./components/DispositivoDetalle";
+import MisDispositivos from "./components/MisDispositivos";
+import ProductosPublicas from "./components/ProductosPublica";
+import ProductoUsuarios from "./components/ProductosUsuario";
+
+
 import UsuarioInformacion from './page/UsuarioInformacion';
+import TerrarioControlScreen from "./components/TerrarioControl";
+
+import SelectRecoveryMethod from "./components/SelectRecoveryMethod";
 
 
 function App() {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith("/admin");
   const isUserRoute = location.pathname.startsWith("/usuario");
-
+  // Determinar si el usuario está autenticado
+  const isUserAuthenticated = !!localStorage.getItem("token");
 
   return (
     <div>
@@ -56,13 +69,15 @@ function App() {
         
         <Route path="/solicitar-restablecimiento" element={<SolicitarRestablecimiento />} />
         <Route path="/restablecer-contrasena/:token" element={<RestablecerContrasena />} />
+        <Route path="/seleccionar-recuperacion" element={<SelectRecoveryMethod />} />
         <Route path="/mision" element={<MisionesPublicas />} />
-        <Route path="/InformacionVisualizar" element={<InformacionVisualizar />} />
-        <Route path="/productos" element={<ProductosVisualizar />} />
+        <Route path="/InformacionVisualizar" element={<InformacionPublicas />} />
+        {/* Cambiamos ProductosVisualizar por ProductosList para la ruta pública */}
+        <Route path="/productos" element={<ProductosPublicas isUserAuthenticated={isUserAuthenticated} />} />
         <Route path="/vision" element={<VisionesPublicas />} />
         <Route path="/contacto" element={<ContactosPublicas />} />
         <Route path="/politicas" element={<PoliticasPublicas />} />
-        <Route path="/preguntas" element={<PreguntasVisualizar />} />
+        <Route path="/preguntas" element={<PreguntasPublicas />} />
         <Route path="/terminos" element={<TerminosPublicas />} />
         
 
@@ -75,13 +90,17 @@ function App() {
             <Route path="perfil2" element={<Perfil2 />} />
             <Route path="userProfile" element={<UserProfile />} />
             <Route path="informacion-tortuga" element={<UsuarioInformacion />} />
-            <Route path="productos" element={<ProductosVisualizar />} /> {/* Nueva ruta */}
+            {/* También usamos ProductosList para usuarios autenticados, pasándole isUserAuthenticated=true */}
+            <Route path="productos" element={<ProductoUsuarios isUserAuthenticated={true} />} /> 
             <Route path="contacto" element={<ContactoVisualizar />} />
             <Route path="mision" element={<MisionesVisualizar />} />
             <Route path="vision" element={<VisionesVisualizar />} />
             <Route path="politicas" element={<PoliticasVisualizar />} />
             <Route path="terminos" element={<TerminosVisualizar />} />
-            <Route path="iot" element={<TerrarioControl />} />
+            <Route path="iot" element={<MisDispositivos />} />
+            <Route path="activar-iot" element={<ActivarDispositivo />} />
+            <Route path="dispositivo/:id" element={<DispositivoDetalle />} />
+            <Route path="terrario-control" element={<TerrarioControlScreen/>} />
             
           </Route>
         </Route>

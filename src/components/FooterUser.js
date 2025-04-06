@@ -36,6 +36,7 @@ const FooterUser = () => {
           <li><Link to="/usuario/vision">Visión</Link></li>
           <li><Link to="/usuario/politicas">Políticas</Link></li>
           <li><Link to="/usuario/terminos">Términos</Link></li>
+          <li><Link to="/usuario/preguntas">Preguntas</Link></li>
         </ul>
 
         {/* Redes sociales (igual al público) */}

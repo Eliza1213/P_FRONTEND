@@ -1,74 +1,110 @@
 import React, { useState } from "react";
-import Swal from "sweetalert2"; // Importa SweetAlert2
-import "../style/Crear.css"; // Importa el archivo CSS
+import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import "../style/Lista.css";
 
 const CrearMision = () => {
   const [titulo, setTitulo] = useState("");
   const [descripcion, setDescripcion] = useState("");
-  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const newMision = { titulo, descripcion };
+    
+    if (!titulo.trim() || !descripcion.trim()) {
+      Swal.fire({
+        title: "Error",
+        text: "Todos los campos son obligatorios",
+        icon: "error",
+        confirmButtonColor: "#8bc34a",
+      });
+      return;
+    }
 
     try {
-      console.log("Enviando solicitud POST:", newMision); // Depuración
+      setLoading(true);
       const response = await fetch("http://localhost:4000/api/misiones", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-        body: JSON.stringify(newMision),
+        body: JSON.stringify({ titulo, descripcion }),
       });
 
-      if (response.ok) {
-        // Mostrar alerta de éxito con SweetAlert2
-        Swal.fire({
-          title: "¡Éxito!",
-          text: "Misión creada con éxito",
-          icon: "success",
-          confirmButtonText: "Aceptar",
-        });
-
-        // Limpiar el formulario después de crear la misión
-        setTitulo("");
-        setDescripcion("");
-      } else {
-        throw new Error("Error al crear misión");
+      if (!response.ok) {
+        throw new Error("Error al crear la misión");
       }
-    } catch (error) {
-      console.error("Error en la creación de misión:", error);
-      setError(error.message);
 
-      // Mostrar alerta de error con SweetAlert2
+      Swal.fire({
+        title: "¡Éxito!",
+        text: "La misión se ha creado correctamente",
+        icon: "success",
+        confirmButtonColor: "#8bc34a",
+      }).then(() => {
+        navigate("/admin/misiones");
+      });
+    } catch (error) {
+      console.error("Error:", error);
       Swal.fire({
         title: "Error",
-        text: error.message || "Hubo un problema al crear la misión",
+        text: "Hubo un problema al crear la misión",
         icon: "error",
-        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#8bc34a",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="visiones-container"> {/* Usamos la misma clase CSS */}
-      <h2>Crear Misión</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+    <div className="formulario-container">
+      <div className="formulario-header">
+        <h2 className="formulario-titulo">Crear Nueva Misión</h2>
+        <p className="formulario-descripcion">
+          Añade una nueva misión al sistema de TortuTerra
+        </p>
+      </div>
+
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Título"
-          value={titulo}
-          onChange={(e) => setTitulo(e.target.value)}
-          required
-        />
-        <textarea
-          placeholder="Descripción"
-          value={descripcion}
-          onChange={(e) => setDescripcion(e.target.value)}
-          required
-        />
-        <button type="submit">Crear Misión</button>
+        <div className="formulario-campo">
+          <label htmlFor="titulo" className="formulario-label">
+            Título
+          </label>
+          <input
+            type="text"
+            id="titulo"
+            value={titulo}
+            onChange={(e) => setTitulo(e.target.value)}
+            className="formulario-input"
+            placeholder="Escribe el título de la misión"
+            required
+          />
+        </div>
+
+        <div className="formulario-campo">
+          <label htmlFor="descripcion" className="formulario-label">
+            Descripción
+          </label>
+          <textarea
+            id="descripcion"
+            value={descripcion}
+            onChange={(e) => setDescripcion(e.target.value)}
+            className="formulario-textarea"
+            placeholder="Escribe la descripción detallada de la misión"
+            required
+          />
+        </div>
+
+        <div className="formulario-botones">
+          <Link to="/admin/misiones" className="btn-cancelar">
+            Cancelar
+          </Link>
+          <button type="submit" className="btn-guardar" disabled={loading}>
+            {loading ? "Guardando..." : "Guardar Misión"}
+          </button>
+        </div>
       </form>
     </div>
   );

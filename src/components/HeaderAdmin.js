@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import Swal from "sweetalert2";
 import "../style/HeaderAdmin.css";
+import logoImage from '../images/logo.png';
 
 const HeaderAdmin = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -43,8 +44,9 @@ const HeaderAdmin = () => {
   return (
     <header className="header-admin">
       <div className="logo-title">
-        <img src="../images/logo.png" alt="Logo" className="logo" />
+        <img src={logoImage}  alt="Logo" className="logo" style={{ width: '80px', height: 'auto' }}/>
         <Link to="/admin"><h1 className="title">PANEL ADMINISTRACIÓN</h1></Link>
+        
       </div>
 
       {/* Menú principal en pantallas grandes */}

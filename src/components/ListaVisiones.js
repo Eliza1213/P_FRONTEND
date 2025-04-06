@@ -1,21 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Swal from "sweetalert2"; // Importa SweetAlert2
-import "../style/Lista.css"; // Importa el archivo CSS compartido
+import Swal from "sweetalert2";
+import "../style/Lista.css";
 
 const ListarVisiones = () => {
   const [visiones, setVisiones] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [filtro, setFiltro] = useState("");
 
   useEffect(() => {
     const fetchVisiones = async () => {
       try {
+        setLoading(true);
         const response = await fetch("http://localhost:4000/api/visiones");
         if (!response.ok) throw new Error("Error al obtener visiones");
         const data = await response.json();
-        console.log("Visiones obtenidas:", data); // Depuración
         setVisiones(data);
+        setLoading(false);
       } catch (error) {
         console.error("Error:", error);
+        Swal.fire({
+          title: "Error",
+          text: "No se pudieron cargar las visiones",
+          icon: "error",
+          confirmButtonColor: "#003366",
+        });
+        setLoading(false);
       }
     };
 
@@ -23,14 +33,13 @@ const ListarVisiones = () => {
   }, []);
 
   const handleEliminar = async (id) => {
-    // Mostrar confirmación con SweetAlert2
     const confirmacion = await Swal.fire({
       title: "¿Estás seguro?",
       text: "¡No podrás revertir esto!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#003366", // Azul marino
-      cancelButtonColor: "#dc3545", // Rojo
+      confirmButtonColor: "#003366",
+      cancelButtonColor: "#dc3545",
       confirmButtonText: "Sí, eliminar",
       cancelButtonText: "Cancelar",
     });
@@ -39,52 +48,78 @@ const ListarVisiones = () => {
       try {
         const response = await fetch(`http://localhost:4000/api/visiones/${id}`, {
           method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         });
 
         if (response.ok) {
           setVisiones(visiones.filter((vision) => vision._id !== id));
-
-          // Mostrar alerta de éxito con SweetAlert2
           Swal.fire({
             title: "¡Eliminado!",
-            text: "La visión ha sido eliminada.",
+            text: "La visión ha sido eliminada correctamente.",
             icon: "success",
-            confirmButtonColor: "#003366", // Azul marino
+            confirmButtonColor: "#003366",
           });
         } else {
-          console.error("Error al eliminar la visión");
-
-          // Mostrar alerta de error con SweetAlert2
-          Swal.fire({
-            title: "Error",
-            text: "Hubo un problema al eliminar la visión.",
-            icon: "error",
-            confirmButtonColor: "#003366", // Azul marino
-          });
+          throw new Error("Error al eliminar la visión");
         }
       } catch (error) {
         console.error("Error:", error);
-
-        // Mostrar alerta de error con SweetAlert2
         Swal.fire({
           title: "Error",
           text: "Hubo un problema al eliminar la visión.",
           icon: "error",
-          confirmButtonColor: "#003366", // Azul marino
+          confirmButtonColor: "#003366",
         });
       }
     }
   };
 
+  // Filtrar visiones
+  const visionesFiltradas = visiones.filter(vision => 
+    vision.titulo.toLowerCase().includes(filtro.toLowerCase())
+  );
+
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="spinner"></div>
+        <p>Cargando visiones...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="preguntas-container">
-      <h2 className="preguntas-titulo">Listado de Visiones</h2>
-      {/* Botón para crear una nueva visión */}
-      <Link to="/admin/visiones/crear" className="btn-crear">
-        ➕ Crear Nueva Visión
-      </Link>
-      {visiones.length === 0 ? (
-        <p className="preguntas-vacio">No hay visiones disponibles</p>
+      <div className="preguntas-header">
+        <h2 className="preguntas-titulo">Gestión de Visiones</h2>
+        <p className="preguntas-descripcion">
+          Administra las visiones de TortuTerra
+        </p>
+      </div>
+      
+      <div className="acciones-header">
+        <div className="filtro-busqueda">
+          <input
+            type="text"
+            placeholder="Buscar por título..."
+            value={filtro}
+            onChange={(e) => setFiltro(e.target.value)}
+            className="filtro-input"
+          />
+        </div>
+        <Link to="/admin/visiones/crear" className="btn-crear">
+          <i className="fas fa-plus"></i> Crear Nueva Visión
+        </Link>
+      </div>
+
+      {visionesFiltradas.length === 0 ? (
+        <div className="preguntas-vacio">
+          {filtro ? 
+            "No se encontraron visiones que coincidan con la búsqueda" : 
+            "No hay visiones disponibles"}
+        </div>
       ) : (
         <table className="preguntas-tabla">
           <thead>
@@ -94,7 +129,7 @@ const ListarVisiones = () => {
             </tr>
           </thead>
           <tbody>
-            {visiones.map((vision) => (
+            {visionesFiltradas.map((vision) => (
               <tr key={vision._id} className="pregunta-fila">
                 <td>{vision.titulo}</td>
                 <td className="acciones">
@@ -102,13 +137,13 @@ const ListarVisiones = () => {
                     to={`/admin/visiones/actualizar/${vision._id}`}
                     className="btn-accion btn-actualizar"
                   >
-                    Actualizar
+                    <i className="fas fa-edit"></i> Editar
                   </Link>
                   <button
                     onClick={() => handleEliminar(vision._id)}
                     className="btn-accion btn-eliminar"
                   >
-                    Eliminar
+                    <i className="fas fa-trash-alt"></i> Eliminar
                   </button>
                 </td>
               </tr>

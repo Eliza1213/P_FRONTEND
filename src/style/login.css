@@ -1,100 +1,258 @@
-/* Estilos Generales */
-body {
-  font-family: Arial, Roboto, sans-serif;
+/* Variables para consistencia con el tema */
+:root {
+  --primary-color: #2a7f68;
+  --primary-hover: #1d6552;
+  --secondary-color: #e7f6f2;
+  --cancel-color: #6c757d;
+  --cancel-hover: #5a6268;
+  --error-color: #dc3545;
+  --success-color: #28a745;
+  --text-color: #333;
+  --light-text: #6c757d;
+  --border-color: #ced4da;
+  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --transition-speed: 0.3s;
+}
+
+/* Página de login con fondo */
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  background-image: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 1rem;
+}
+
+/* Contenedor principal */
+.login-container {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: var(--box-shadow);
+  width: 100%;
+  max-width: 450px;
+  padding: 2.5rem;
+  animation: fadeIn 0.5s ease;
+}
+
+/* Animación de entrada */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Encabezado */
+.login-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.login-header h1 {
+  color: var(--primary-color);
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+
+.login-header h1::after {
+  content: '';
+  position: absolute;
+  bottom: -0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background-color: var(--primary-color);
+  border-radius: 2px;
+}
+
+.login-header p {
+  color: var(--light-text);
   font-size: 1rem;
-  background-color: #f0f8f5;
-  color: #333333;
-  margin: 0;
-  padding: 0;
+  margin-top: 1rem;
 }
 
 /* Formulario */
-form {
-  background-color: #ffffff;
-  border: 1px solid #cccccc;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 400px;
-  margin: 2rem auto;
-}
-
-/* Título centrado */
-.login-container h1 {
+.login-form {
   margin-bottom: 1.5rem;
-  color: #333;
-  text-align: center; /* Centrar el título */
 }
 
-label {
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
   display: block;
-  font-size: 1rem;
-  font-weight: bold;
   margin-bottom: 0.5rem;
-  color: #2a7f68;
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 0.95rem;
 }
 
-input[type="email"],
-input[type="password"] {
+/* Contenedor de entrada con icono */
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Iconos */
+.input-icon {
+  position: absolute;
+  left: 1.8rem; /* Cambiado de -1.5rem a 1.8rem */
+  color: var(--light-text);
+  font-size: 0.9rem;
+}
+
+/* Campos de entrada */
+.input-container input {
   width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #cccccc;
-  border-radius: 4px;
+  padding: 0.75rem 1rem 0.75rem 4rem; /* Mantenemos 4rem a la izquierda para el espacio del icono */
   font-size: 1rem;
-  margin-bottom: 1rem;
-  box-sizing: border-box;
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
 }
 
-input[type="email"]:focus,
-input[type="password"]:focus {
-  border-color: #2a7f68;
+
+.input-container input:focus {
   outline: none;
-  box-shadow: 0 0 5px rgba(42, 127, 104, 0.5);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(42, 127, 104, 0.25);
 }
 
-button[type="submit"] {
-  background-color: #2a7f68;
-  color: #ffffff;
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: bold;
-  width: 100%;
-  transition: background-color 0.3s;
-}
-
-button[type="submit"]:hover {
-  background-color: #4caf92;
-}
-
-button[type="button"] {
+/* Botón para mostrar/ocultar contraseña */
+.toggle-password {
+  position: absolute;
+  right: 1rem;
   background: none;
   border: none;
+  color: var(--light-text);
   cursor: pointer;
-  font-size: 1.2rem;
-  color: #333333;
-}
-
-button[type="button"]:hover {
-  color: #4caf92;
-}
-
-/* Link de "Olvidaste la contraseña?" */
-a {
-  color: #2a7f68;
-  text-decoration: none;
   font-size: 1rem;
+  padding: 0;
+  transition: color var(--transition-speed) ease;
 }
 
-a:hover {
+.toggle-password:hover {
+  color: var(--primary-color);
+}
+
+/* Enlace para recuperar contraseña */
+.forgot-password {
+  text-align: right;
+  margin-bottom: 1.5rem;
+}
+
+.forgot-password a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color var(--transition-speed) ease;
+}
+
+.forgot-password a:hover {
   text-decoration: underline;
+  color: var(--primary-hover);
 }
 
-/* Espaciado y Márgenes */
-.container {
-  padding: 1rem;
-  max-width: 600px;
-  margin: 0 auto;
+/* Botón de inicio de sesión */
+.login-button {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-speed) ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.login-button:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+}
+
+.login-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Spinner de carga */
+.loading-spinner {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Enlace para registro */
+.register-link {
+  text-align: center;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--light-text);
+}
+
+.register-link a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color var(--transition-speed) ease;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+  color: var(--primary-hover);
+}
+
+/* Pie de página */
+.login-footer {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 0.8rem;
+  color: var(--light-text);
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .login-container {
+    padding: 1.5rem;
+  }
+  
+  .login-header h1 {
+    font-size: 1.75rem;
+  }
+  
+  .input-container input {
+    padding: 0.7rem 1rem 0.7rem 3.8rem;
+  }
+  
+  .login-button {
+    padding: 0.7rem;
+  }
 }

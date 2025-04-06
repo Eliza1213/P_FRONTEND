@@ -1,0 +1,171 @@
+/* style/DispositivoDetalle.css */
+.dispositivo-detalle-container {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+  }
+  
+  .detalle-header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .btn-volver {
+    align-self: flex-start;
+    text-decoration: none;
+    color: #2e7d32;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+  }
+  
+  .detalle-header h2 {
+    color: #2e7d32;
+    border-bottom: 2px solid #2e7d32;
+    padding-bottom: 10px;
+  }
+  
+  .dispositivo-info-card {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+  }
+  
+  .info-header {
+    background-color: #f5f5f5;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .info-header h3 {
+    margin: 0;
+    color: #333;
+    font-size: 20px;
+  }
+  
+  .info-content {
+    padding: 20px;
+    display: flex;
+    gap: 30px;
+  }
+  
+  .info-imagen {
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .info-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .info-detalles {
+    flex: 1;
+  }
+  
+  .info-detalles p {
+    margin: 10px 0;
+    line-height: 1.5;
+    color: #555;
+  }
+  
+  .info-detalles strong {
+    color: #333;
+  }
+  
+  .info-actions {
+    padding: 0 20px 20px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .datos-sensor-container {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .datos-sensor-container h3 {
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 15px 20px;
+    color: #333;
+    font-size: 18px;
+  }
+  
+  .no-datos {
+    padding: 30px 20px;
+    text-align: center;
+    color: #666;
+  }
+  
+  .datos-grid {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  
+  .dato-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .dato-tiempo {
+    background-color: #e8f5e9;
+    padding: 10px 15px;
+    color: #2e7d32;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  
+  .dato-valores {
+    padding: 15px;
+  }
+  
+  .dato-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .dato-item:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+  
+  .dato-label {
+    font-weight: 600;
+    color: #555;
+  }
+  
+  .dato-value {
+    color: #333;
+  }
+  
+  .loading-detalle,
+  .error-detalle {
+    text-align: center;
+    padding: 50px 20px;
+    font-size: 18px;
+  }
+  
+  .error-detalle {
+    color: #d32f2f;
+  }

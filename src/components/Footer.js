@@ -40,6 +40,7 @@ const Footer = () => {
             <li><Link to="/vision">Visión</Link></li>
             <li><Link to="/politicas">Políticas</Link></li>
             <li><Link to="/terminos">Términos</Link></li>
+            <li><Link to="/preguntas">Preguntas</Link></li>
         </ul>
 
         {/* Redes sociales dinámicas */}

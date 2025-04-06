@@ -1,302 +1,160 @@
-// src/components/TerrarioControlScreen.js
-import React, { useState, useCallback, useEffect } from "react";
-import { useTerrarioApi } from "../utils/api";
-import "../style/terrarioControl.css";
+// components/TerrarioControlPanel.js
+import React, { useState, useEffect } from 'react';
+import { useTerrarioApi } from '../utils/api';
+import '../style/terrarioControl.css';
 
-// Íconos
-import { 
-  FaThermometerHalf, 
-  FaPaw, 
-  FaCog, 
-  FaBolt, 
-  FaLightbulb, 
-  FaUtensils,
-  FaWifi,
-  FaSyncAlt
-} from 'react-icons/fa';
-
-const TerrarioControlScreen = () => {
-  // Estado del terrario
-  const [status, setStatus] = useState({
-    temperature: 28.7,
-    fanState: false,
-    foodLevel: "empty",
-    turtleActivity: false,
-    stableTemp: 24.0,
-    maxTemp: 30.0,
-    lampState: false
-  });
-  
-  // Estados de interfaz
-  const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
-  const [error, setError] = useState(null);
-  const [reconnectAttempts, setReconnectAttempts] = useState(0);
-  
-  // Hook API
+const TerrarioControlPanel = () => {
   const { 
-    status: apiStatus, 
+    status, 
     connectionStatus, 
-    errorMessage, 
+    errorMessage,
     connect, 
     controlFan, 
     controlLamp, 
     dispenseFood 
   } = useTerrarioApi();
-  
-  const connected = connectionStatus === 'connected';
 
-  // Actualizar estado
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    if (apiStatus) {
-      setStatus(prev => ({
-        ...prev,
-        temperature: apiStatus.temperature,
-        fanState: apiStatus.fanState,
-        foodLevel: apiStatus.foodLevel,
-        turtleActivity: apiStatus.turtleActivity,
-        lampState: apiStatus.lampState
-      }));
-      
-      if (connectionStatus === 'connected') {
+    const initializeConnection = async () => {
+      try {
+        await connect();
         setLoading(false);
-        setError(null);
+      } catch (error) {
+        console.error("Error al conectar:", error);
+        setLoading(false);
       }
-    }
-  }, [apiStatus, connectionStatus]);
+    };
 
-  // Manejar errores
-  useEffect(() => {
-    if (connectionStatus === 'error' && errorMessage) {
-      setError(`Error de conexión: ${errorMessage}`);
-      setLoading(false);
-      setReconnectAttempts(prev => prev + 1);
-      
-      if (reconnectAttempts >= 3) {
-        setError('No se puede conectar al servidor. Verifica tu conexión a Internet.');
-      }
-    }
-  }, [connectionStatus, errorMessage, reconnectAttempts]);
-
-  // Funciones de control
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    setError(null);
-    connect().finally(() => {
-      setTimeout(() => {
-        setRefreshing(false);
-      }, 1000);
-    });
+    initializeConnection();
   }, [connect]);
 
-  const handleFanToggle = useCallback((event) => {
-    if (connected) {
-      const value = event.target.checked;
-      controlFan(value);
-    }
-  }, [connected, controlFan]);
+  const handleToggleFan = async () => {
+    await controlFan(!status.fanState);
+  };
 
-  const handleLampToggle = useCallback((event) => {
-    if (connected) {
-      const value = event.target.checked;
-      controlLamp(value);
-    }
-  }, [connected, controlLamp]);
+  const handleToggleLamp = async () => {
+    await controlLamp(!status.lampState);
+  };
 
-  const handleDispenseFood = useCallback(() => {
-    if (connected) {
-      dispenseFood();
-      alert('Dispensando comida. Se ha enviado la orden al dispensador.');
-    }
-  }, [connected, dispenseFood]);
+  const handleDispenseFood = async () => {
+    await dispenseFood();
+  };
 
-  const handleForceReconnect = useCallback(() => {
-    setLoading(true);
-    setError(null);
-    connect();
-  }, [connect]);
-
-  // Pantalla de carga
-  if (loading && !refreshing) {
-    return (
-      <div className="loading-page">
-        <div className="loading-content">
-          <div className="spinner"></div>
-          <h2>Conectando con el terrario...</h2>
-          <p>Por favor espera mientras establecemos conexión</p>
-        </div>
-      </div>
-    );
+  if (loading) {
+    return <div className="loading-container">Conectando al terrario...</div>;
   }
 
   return (
-    <div className="page-container">
-      {/* Main Content */}
-      <main className="main-content">
-        <section className="hero-section">
-          <div className="hero-content">
-            <div className="title-container">
-              <h2>Control del Terrario</h2>
-              <div className="connection-status">
-                <FaWifi className={`connection-icon ${connected ? 'connected' : 'disconnected'}`} />
-                <span>{connected ? 'Conectado' : 'Desconectado'}</span>
-                <button className="refresh-btn" onClick={onRefresh} disabled={refreshing}>
-                  <FaSyncAlt className={refreshing ? 'spinning' : ''} />
-                </button>
+    <div className="terrario-panel-container">
+      <h2>Control del Terrario Inteligente</h2>
+      
+      <div className={`connection-status ${connectionStatus}`}>
+        Estado de conexión: {connectionStatus === 'connected' ? 'Conectado' : 
+                            connectionStatus === 'connecting' ? 'Conectando...' : 
+                            'Desconectado'}
+      </div>
+      
+      {errorMessage && (
+        <div className="error-message">
+          Error: {errorMessage}
+        </div>
+      )}
+      
+      <div className="panel-content">
+        <div className="sensor-readings">
+          <h3>Lecturas de Sensores</h3>
+          
+          <div className="sensor-grid">
+            <div className="sensor-card temperature">
+              <div className="sensor-icon">🌡️</div>
+              <div className="sensor-data">
+                <span className="sensor-value">{status.temperature}°C</span>
+                <span className="sensor-label">Temperatura</span>
               </div>
             </div>
-            <p>Monitorea y controla el hábitat de tu tortuga desde cualquier lugar</p>
-          </div>
-        </section>
-
-        {/* Error Message */}
-        {error && (
-          <div className="error-alert">
-            <p>{error}</p>
-            <button className="reconnect-btn" onClick={handleForceReconnect}>
-              Intentar reconectar
-            </button>
-          </div>
-        )}
-
-        <div className="dashboard-grid">
-          {/* Status Panel */}
-          <section className="status-panel card">
-            <h3 className="panel-title">
-              <FaThermometerHalf className="title-icon" />
-              Estado Actual
-            </h3>
             
-            <div className="status-grid">
-              <div className="status-item">
-                <div className="status-icon temp">
-                  <FaThermometerHalf />
-                </div>
-                <div className="status-info">
-                  <p className="status-label">Temperatura</p>
-                  <p className="status-value">{status.temperature.toFixed(1)}°C</p>
-                </div>
-              </div>
-
-              <div className="status-item">
-                <div className="status-icon food">
-                  <FaUtensils />
-                </div>
-                <div className="status-info">
-                  <p className="status-label">Nivel de Comida</p>
-                  <p className="status-value">
-                    {status.foodLevel === "empty" ? "Vacío" :
-                    status.foodLevel === "medium" ? "Medio" : "Lleno"}
-                  </p>
-                </div>
-              </div>
-
-              <div className="status-item">
-                <div className="status-icon activity">
-                  <FaPaw />
-                </div>
-                <div className="status-info">
-                  <p className="status-label">Actividad</p>
-                  <p className="status-value">{status.turtleActivity ? "Activa" : "Inactiva"}</p>
-                </div>
-              </div>
-
-              <div className="status-item">
-                <div className="status-icon ideal">
-                  <FaCog />
-                </div>
-                <div className="status-info">
-                  <p className="status-label">Temp. Ideal</p>
-                  <p className="status-value">
-                    {status.stableTemp}°C - {status.maxTemp}°C
-                  </p>
-                </div>
+            <div className="sensor-card food-level">
+              <div className="sensor-icon">🍽️</div>
+              <div className="sensor-data">
+                <span className="sensor-value">
+                  {status.foodLevel === 'high' ? 'Alto' : 
+                   status.foodLevel === 'medium' ? 'Medio' : 'Bajo'}
+                </span>
+                <span className="sensor-label">Nivel de Comida</span>
               </div>
             </div>
-          </section>
-
-          {/* Controls Panel */}
-          <section className="controls-panel card">
-            <h3 className="panel-title">
-              <FaBolt className="title-icon" />
-              Controles
-            </h3>
-
-            <div className="control-list">
-              <div className="control-item">
-                <div className="control-info">
-                  <div className="control-icon">
-                    <FaBolt />
-                  </div>
-                  <div>
-                    <p className="control-label">Ventilador</p>
-                    <p className="control-status">{status.fanState ? "Encendido" : "Apagado"}</p>
-                  </div>
-                </div>
-                <label className="switch">
-                  <input 
-                    type="checkbox" 
-                    checked={status.fanState}
-                    onChange={handleFanToggle}
-                    disabled={!connected}
-                  />
-                  <span className="slider round"></span>
-                </label>
+            
+            <div className="sensor-card activity">
+              <div className="sensor-icon">🐢</div>
+              <div className="sensor-data">
+                <span className="sensor-value">
+                  {status.turtleActivity ? 'Detectada' : 'No detectada'}
+                </span>
+                <span className="sensor-label">Actividad</span>
               </div>
-
-              <div className="control-item">
-                <div className="control-info">
-                  <div className="control-icon">
-                    <FaLightbulb />
-                  </div>
-                  <div>
-                    <p className="control-label">Lámpara</p>
-                    <p className="control-status">{status.lampState ? "Encendida" : "Apagada"}</p>
-                  </div>
-                </div>
-                <label className="switch">
-                  <input 
-                    type="checkbox" 
-                    checked={status.lampState}
-                    onChange={handleLampToggle}
-                    disabled={!connected}
-                  />
-                  <span className="slider round"></span>
-                </label>
+            </div>
+          </div>
+        </div>
+        
+        <div className="control-section">
+          <h3>Controles</h3>
+          
+          <div className="control-grid">
+            <div className="control-card">
+              <h4>Ventilador</h4>
+              <div className={`device-status ${status.fanState ? 'on' : 'off'}`}>
+                {status.fanState ? 'Encendido' : 'Apagado'}
               </div>
-
               <button 
-                className={`food-button ${!connected ? 'disabled' : ''}`}
-                onClick={handleDispenseFood}
-                disabled={!connected}
+                className={`control-btn ${status.fanState ? 'active' : ''}`}
+                onClick={handleToggleFan}
               >
-                <FaUtensils className="button-icon" />
-                <span>Dispensar Comida</span>
+                {status.fanState ? 'Apagar' : 'Encender'}
               </button>
             </div>
-          </section>
-        </div>
-
-        {/* Info Section */}
-        <section className="info-section card">
-          <h3>Información del Sistema</h3>
-          <p>
-            El sistema de TORTUTERRA permite monitorear y controlar el hábitat de tu tortuga en tiempo real.
-            Todos los controles se actualizan instantáneamente cuando hay conexión estable.
-          </p>
-          <div className="status-indicator">
-            <div className={`indicator-dot ${connected ? 'connected' : 'disconnected'}`}></div>
-            <span>Estado actual: {connected ? 'Conectado al terrario' : 'Desconectado'}</span>
+            
+            <div className="control-card">
+              <h4>Lámpara</h4>
+              <div className={`device-status ${status.lampState ? 'on' : 'off'}`}>
+                {status.lampState ? 'Encendida' : 'Apagada'}
+              </div>
+              <button 
+                className={`control-btn ${status.lampState ? 'active' : ''}`}
+                onClick={handleToggleLamp}
+              >
+                {status.lampState ? 'Apagar' : 'Encender'}
+              </button>
+            </div>
+            
+            <div className="control-card">
+              <h4>Dispensador de Comida</h4>
+              <button 
+                className="control-btn food-btn"
+                onClick={handleDispenseFood}
+              >
+                Dispensar Comida
+              </button>
+            </div>
           </div>
-        </section>
-      </main>
-
-      {/* Footer */}
-      <footer className="page-footer">
-        <p>© {new Date().getFullYear()} TORTUTERRA - Sistema de Control de Terrarios</p>
-      </footer>
+        </div>
+      </div>
+      
+      <div className="terrario-info">
+        <h3>Información del Terrario</h3>
+        <p>
+          Este panel te permite controlar tu terrario inteligente en tiempo real. 
+          Puedes encender/apagar el ventilador y la lámpara para mantener la temperatura 
+          adecuada, y dispensar comida cuando sea necesario.
+        </p>
+        <p>
+          Los datos de los sensores se actualizan automáticamente cada 5 segundos para 
+          mostrarte el estado actual de tu terrario.
+        </p>
+      </div>
     </div>
   );
 };
 
-export default TerrarioControlScreen;
+export default TerrarioControlPanel;

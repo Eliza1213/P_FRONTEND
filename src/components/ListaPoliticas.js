@@ -1,21 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Swal from "sweetalert2"; // Importa SweetAlert2
-import "../style/Lista.css"; // Importa el archivo CSS compartido
+import Swal from "sweetalert2";
+import "../style/Lista.css";
 
 const ListarPoliticas = () => {
   const [politicas, setPoliticas] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [filtro, setFiltro] = useState("");
 
   useEffect(() => {
     const fetchPoliticas = async () => {
       try {
+        setLoading(true);
         const response = await fetch("http://localhost:4000/api/politicas");
         if (!response.ok) throw new Error("Error al obtener políticas");
         const data = await response.json();
-        console.log("Políticas obtenidas:", data); // Depuración
         setPoliticas(data);
+        setLoading(false);
       } catch (error) {
         console.error("Error:", error);
+        Swal.fire({
+          title: "Error",
+          text: "No se pudieron cargar las políticas",
+          icon: "error",
+          confirmButtonColor: "#003366",
+        });
+        setLoading(false);
       }
     };
 
@@ -23,14 +33,13 @@ const ListarPoliticas = () => {
   }, []);
 
   const handleEliminar = async (id) => {
-    // Mostrar confirmación con SweetAlert2
     const confirmacion = await Swal.fire({
       title: "¿Estás seguro?",
       text: "¡No podrás revertir esto!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#003366", // Azul marino
-      cancelButtonColor: "#dc3545", // Rojo
+      confirmButtonColor: "#003366",
+      cancelButtonColor: "#f44336",
       confirmButtonText: "Sí, eliminar",
       cancelButtonText: "Cancelar",
     });
@@ -39,52 +48,78 @@ const ListarPoliticas = () => {
       try {
         const response = await fetch(`http://localhost:4000/api/politicas/${id}`, {
           method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         });
 
         if (response.ok) {
           setPoliticas(politicas.filter((politica) => politica._id !== id));
-
-          // Mostrar alerta de éxito con SweetAlert2
           Swal.fire({
             title: "¡Eliminado!",
-            text: "La política ha sido eliminada.",
+            text: "La política ha sido eliminada correctamente.",
             icon: "success",
-            confirmButtonColor: "#003366", // Azul marino
+            confirmButtonColor: "#003366",
           });
         } else {
-          console.error("Error al eliminar la política");
-
-          // Mostrar alerta de error con SweetAlert2
-          Swal.fire({
-            title: "Error",
-            text: "Hubo un problema al eliminar la política.",
-            icon: "error",
-            confirmButtonColor: "#003366", // Azul marino
-          });
+          throw new Error("Error al eliminar la política");
         }
       } catch (error) {
         console.error("Error:", error);
-
-        // Mostrar alerta de error con SweetAlert2
         Swal.fire({
           title: "Error",
           text: "Hubo un problema al eliminar la política.",
           icon: "error",
-          confirmButtonColor: "#003366", // Azul marino
+          confirmButtonColor: "#003366",
         });
       }
     }
   };
 
+  // Filtrar políticas
+  const politicasFiltradas = politicas.filter(politica => 
+    politica.titulo.toLowerCase().includes(filtro.toLowerCase())
+  );
+
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="spinner"></div>
+        <p>Cargando políticas...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="preguntas-container">
-      <h2 className="preguntas-titulo">Listado de Políticas</h2>
-      {/* Botón para crear una nueva política */}
-      <Link to="/admin/politicas/crear" className="btn-crear">
-        ➕ Crear Nueva Política
-      </Link>
-      {politicas.length === 0 ? (
-        <p className="preguntas-vacio">No hay políticas disponibles</p>
+      <div className="preguntas-header">
+        <h2 className="preguntas-titulo">Gestión de Políticas</h2>
+        <p className="preguntas-descripcion">
+          Administra las políticas de TortuTerra
+        </p>
+      </div>
+      
+      <div className="acciones-header">
+        <div className="filtro-busqueda">
+          <input
+            type="text"
+            placeholder="Buscar por título..."
+            value={filtro}
+            onChange={(e) => setFiltro(e.target.value)}
+            className="filtro-input"
+          />
+        </div>
+        <Link to="/admin/politicas/crear" className="btn-crear">
+          <i className="fas fa-plus"></i> Crear Nueva Política
+        </Link>
+      </div>
+
+      {politicasFiltradas.length === 0 ? (
+        <div className="preguntas-vacio">
+          {filtro ? 
+            "No se encontraron políticas que coincidan con la búsqueda" : 
+            "No hay políticas disponibles"}
+        </div>
       ) : (
         <table className="preguntas-tabla">
           <thead>
@@ -94,7 +129,7 @@ const ListarPoliticas = () => {
             </tr>
           </thead>
           <tbody>
-            {politicas.map((politica) => (
+            {politicasFiltradas.map((politica) => (
               <tr key={politica._id} className="pregunta-fila">
                 <td>{politica.titulo}</td>
                 <td className="acciones">
@@ -102,13 +137,13 @@ const ListarPoliticas = () => {
                     to={`/admin/politicas/actualizar/${politica._id}`}
                     className="btn-accion btn-actualizar"
                   >
-                    Actualizar
+                    <i className="fas fa-edit"></i> Editar
                   </Link>
                   <button
                     onClick={() => handleEliminar(politica._id)}
                     className="btn-accion btn-eliminar"
                   >
-                    Eliminar
+                    <i className="fas fa-trash-alt"></i> Eliminar
                   </button>
                 </td>
               </tr>

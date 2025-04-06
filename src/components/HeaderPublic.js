@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
+import logoImage from '../images/logo.png';
 import "../style/Header.css";
 
 const HeaderPublic = () => {
@@ -8,13 +9,18 @@ const HeaderPublic = () => {
   const [submenuOpen, setSubmenuOpen] = useState(null);
   const location = useLocation();
   const dropdownRef = useRef(null);
+  const mobileDropdownRef = useRef(null);
 
   const toggleSubmenu = (menu) => {
     setSubmenuOpen(submenuOpen === menu ? null : menu);
   };
 
   const handleClickOutside = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    // Verificar clicks fuera de los dropdowns para ambos, escritorio y móvil
+    if (
+      (dropdownRef.current && !dropdownRef.current.contains(event.target)) &&
+      (mobileDropdownRef.current && !mobileDropdownRef.current.contains(event.target))
+    ) {
       setSubmenuOpen(null);
     }
   };
@@ -32,62 +38,115 @@ const HeaderPublic = () => {
     };
   }, []);
 
+  // Componente de Dropdown reutilizable
+  const Dropdown = ({ title, items, isOpen, onToggle, isMobile = false }) => (
+    <div className={`dropdown ${isMobile ? 'mobile-dropdown' : ''}`}>
+      <button 
+        className={`nav-link ${isOpen ? 'active' : ''}`} 
+        onClick={onToggle}
+      >
+        {title}
+        <ChevronDown 
+          size={18} 
+          className={`dropdown-icon ${isOpen ? 'rotate' : ''}`} 
+        />
+      </button>
+      <ul className={`dropdown-menu ${isOpen ? "open" : ""}`}>
+        {items.map((item, index) => (
+          <li key={index}>
+            <Link to={item.path} className="dropdown-item">
+              {item.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+
+  const sesionItems = [
+    { label: "Registro", path: "/registro" },
+    { label: "Inicio De Sesión", path: "/login" },
+    { label: "Recuperación de contraseña", path: "/seleccionar-recuperacion" }
+  ];
+
+  const infoItems = [
+    { label: "Tortugas adecuadas", path: "/tortugas-adecuadas" },
+    { label: "Cuidados básicos", path: "/cuidados-basicos" },
+    { label: "Consejos para el hábitat", path: "/consejos" }
+  ];
+
   return (
     <header className="header">
       <div className="logo-title">
-        <img src="/logo.png" alt="Logo" className="logo" />
-        <Link to="/"><h1 className="title">TORTUTERRA</h1></Link>
+        <img 
+          src={logoImage} 
+          alt="Logo" 
+          className="logo" 
+          loading="lazy" 
+          style={{ width: '80px', height: 'auto' }}
+        />
+        <Link to="/">
+          <h1 className="title">TORTUTERRA</h1>
+        </Link>
       </div>
 
-      {/* Menú principal en pantallas grandes */}
+      {/* Menú principal en pantallas grandes - POSICIONES INTERCAMBIADAS */}
       <nav className="nav" ref={dropdownRef}>
+        {/* Primero el botón de Productos */}
+        <Link to="/productos" className="nav-link">
+          Productos
+        </Link>
 
-        <div className="dropdown">
-          <button className="nav-link" onClick={() => toggleSubmenu("sesion")}>
-            INICIAR SESIÓN
-          </button>
-          <ul className={`dropdown-menu ${submenuOpen === "sesion" ? "open" : ""}`}>
-            <li><Link to="/registro" className="dropdown-item">Formulario de registro</Link></li>
-            <li><Link to="/login" className="dropdown-item">Login</Link></li>
-            <li><Link to="/recuperacion" className="dropdown-item">Recuperacion de contraseña por pregunta</Link></li>
-            <li><Link to="/solicitar-restablecimiento" className="dropdown-item">Recuperacion de contraseña por correo</Link></li>
-          </ul>
-        </div>
+        {/* Después el dropdown de Iniciar Sesión */}
+        <Dropdown 
+          title="Iniciar Sesión" 
+          items={sesionItems} 
+          isOpen={submenuOpen === "sesion"}
+          onToggle={() => toggleSubmenu("sesion")}
+        />
 
-        <Link to="/InformacionVisualizar" className="nav-link">Informacion de Tortugas</Link>
+        <Link to="/InformacionVisualizar" className="nav-link">
+          Información de Tortugas
+        </Link>
       </nav>
 
-      {/* Menú Hamburguesa solo en móviles */}
-      <button className="menu-btn" onClick={() => setMenuOpen(!menuOpen)}>
+      {/* Botón del menú hamburguesa */}
+      <button 
+        className="menu-btn" 
+        onClick={() => setMenuOpen(!menuOpen)}
+        aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
+      >
         {menuOpen ? <X size={28} /> : <Menu size={28} />}
       </button>
 
-      {/* Menú responsive en móviles */}
-      <nav className={`mobile-menu ${menuOpen ? "open" : ""}`}>
+      {/* Menú responsive en móviles - TAMBIÉN ACTUALIZADO */}
+      <nav 
+        className={`mobile-menu ${menuOpen ? "open" : ""}`} 
+        ref={mobileDropdownRef}
+      >
         <Link to="/" className="nav-link">Inicio</Link>
+        
+        {/* Primero el enlace a Productos */}
+        <Link to="/productos" className="nav-link">
+          Productos
+        </Link>
 
-        <div className="dropdown">
-          <button className="nav-link" onClick={() => toggleSubmenu("sesion")}>
-            Sesión
-          </button>
-          <ul className={`dropdown-menu ${submenuOpen === "sesion" ? "open" : ""}`}>
-            <li><Link to="/registro" className="dropdown-item">Formulario de registro</Link></li>
-            <li><Link to="/login" className="dropdown-item">Login</Link></li>
-            <li><Link to="/recuperacion" className="dropdown-item">Recuperación de contraseña</Link></li>
-            <li><Link to="/solicitar-restablecimiento" className="dropdown-item">Recuperación de contraseña por correo</Link></li>
-          </ul>
-        </div>
+        {/* Después el dropdown de Sesión */}
+        <Dropdown 
+          title="Sesión" 
+          items={sesionItems} 
+          isOpen={submenuOpen === "sesion"}
+          onToggle={() => toggleSubmenu("sesion")}
+          isMobile={true}
+        />
 
-        <div className="dropdown">
-          <button className="nav-link" onClick={() => toggleSubmenu("info")}>
-            Información de tortugas
-          </button>
-          <ul className={`dropdown-menu ${submenuOpen === "info" ? "open" : ""}`}>
-            <li><Link to="/tortugas-adecuadas" className="dropdown-item">Tortugas adecuadas</Link></li>
-            <li><Link to="/cuidados-basicos" className="dropdown-item">Cuidados básicos</Link></li>
-            <li><Link to="/consejos" className="dropdown-item">Consejos para el hábitat</Link></li>
-          </ul>
-        </div>
+        <Dropdown 
+          title="Información de tortugas" 
+          items={infoItems} 
+          isOpen={submenuOpen === "info"}
+          onToggle={() => toggleSubmenu("info")}
+          isMobile={true}
+        />
       </nav>
     </header>
   );

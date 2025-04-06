@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import Swal from "sweetalert2";
 import "../style/HeaderUser.css";
+import logoImage from '../images/logo.png';
 
 const HeaderUser = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -41,15 +42,16 @@ const HeaderUser = () => {
   return (
     <header className="header-user">
       <div className="logo-title">
-        <img src="/logo.png" alt="Logo" className="logo" />
+        <img src={logoImage} alt="Logo" className="logo" style={{ width: '80px', height: 'auto' }} />
         <Link to="/usuario"><h1 className="title">TORTUTERRA</h1></Link>
       </div>
 
       <nav className="nav-user">
         <div className="user-info">
-          <span className="welcome-message">Bienvenido, <span className="user-name">{nombreUsuario}</span></span>
+          <span className="welcome-message">Bienvenido <span className="user-name">{nombreUsuario}</span></span>
         </div>
         <Link to="/usuario/informacion-tortuga" className="info-btn">Información de Tortuga</Link>
+        <Link to="/usuario/productos" className="info-btn">Productos</Link>
         <button onClick={handleLogout} className="logout-btn">Cerrar sesión</button>
       </nav>
 
@@ -61,7 +63,8 @@ const HeaderUser = () => {
         <div className="user-info-mobile">
           <span className="welcome-message">Bienvenido, <span className="user-name">{nombreUsuario}</span></span>
         </div>
-        <Link to="/informacion-tortuga" className="info-btn-mobile">Información de Tortuga</Link>
+        <Link to="/usuario/informacion-tortuga" className="info-btn-mobile">Información de Tortuga</Link>
+        <Link to="/usuario/productos" className="info-btn-mobile">Productos</Link>
         <button onClick={handleLogout} className="logout-btn-mobile">Cerrar sesión</button>
       </nav>
     </header>

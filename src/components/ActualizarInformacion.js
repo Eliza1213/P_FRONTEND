@@ -1,129 +1,188 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import "../style/Actualizar.css"; // Importa el archivo CSS
+import "../style/Lista.css";
 
 const ActualizarInformacion = () => {
-  const { id } = useParams(); // Obtiene el ID de la información desde la URL
-  const navigate = useNavigate(); // Para redirigir después de actualizar
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [especie, setEspecie] = useState("");
+  const [descripcion, setDescripcion] = useState("");
   const [alimentacion, setAlimentacion] = useState("");
   const [temperaturaIdeal, setTemperaturaIdeal] = useState("");
-  const [humedadIdeal, setHumedadIdeal] = useState("");
-  const [descripcion, setDescripcion] = useState("");
-  const [imagen, setImagen] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     const fetchInformacion = async () => {
       try {
+        setLoading(true);
         const response = await fetch(`http://localhost:4000/api/informaciones/${id}`);
         if (!response.ok) throw new Error("Error al obtener la información");
+        
         const data = await response.json();
         setEspecie(data.especie);
+        setDescripcion(data.descripcion);
         setAlimentacion(data.alimentacion);
         setTemperaturaIdeal(data.temperatura_ideal);
-        setHumedadIdeal(data.humedad_ideal);
-        setDescripcion(data.descripcion);
-        setImagen(data.imagen);
+        setLoading(false);
       } catch (error) {
-        console.error(error);
+        console.error("Error:", error);
+        Swal.fire({
+          title: "Error",
+          text: "No se pudo cargar la información de la especie",
+          icon: "error",
+          confirmButtonColor: "#003366",
+        }).then(() => {
+          navigate("/admin/informaciones");
+        });
       }
     };
 
     fetchInformacion();
-  }, [id]);
+  }, [id, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const updatedInformacion = {
-      especie,
-      alimentacion,
-      temperatura_ideal: temperaturaIdeal,
-      humedad_ideal: humedadIdeal,
-      descripcion,
-      imagen,
-    };
+    
+    // Validaciones
+    if (!especie.trim() || !descripcion.trim() || !alimentacion.trim() || !temperaturaIdeal.trim()) {
+      Swal.fire({
+        title: "Error",
+        text: "Todos los campos son obligatorios",
+        icon: "error",
+        confirmButtonColor: "#003366",
+      });
+      return;
+    }
 
     try {
+      setSaving(true);
+      const informacionActualizada = {
+        especie,
+        descripcion,
+        alimentacion,
+        temperatura_ideal: temperaturaIdeal
+      };
+
       const response = await fetch(`http://localhost:4000/api/informaciones/${id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedInformacion),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(informacionActualizada),
       });
 
-      if (response.ok) {
-        Swal.fire({
-          icon: "success",
-          title: "Éxito",
-          text: "Información actualizada con éxito",
-          confirmButtonText: "Aceptar",
-        }).then(() => {
-          navigate("/admin/informacion/listar"); // Redirige después de aceptar
-        });
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "Error al actualizar la información",
-        });
+      if (!response.ok) {
+        throw new Error("Error al actualizar la información");
       }
-    } catch (error) {
-      console.error("Error en la actualización:", error);
+
       Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "Ocurrió un problema al actualizar la información",
+        title: "¡Actualizado!",
+        text: "La información se ha actualizado correctamente",
+        icon: "success",
+        confirmButtonColor: "#003366",
+      }).then(() => {
+        navigate("/admin/informaciones");
       });
+    } catch (error) {
+      console.error("Error:", error);
+      Swal.fire({
+        title: "Error",
+        text: "Hubo un problema al actualizar la información",
+        icon: "error",
+        confirmButtonColor: "#003366",
+      });
+    } finally {
+      setSaving(false);
     }
   };
 
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="spinner"></div>
+        <p>Cargando información de la especie...</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="contactos-container">
-      <h2>Actualizar Información</h2>
+    <div className="formulario-container">
+      <div className="formulario-header">
+        <h2 className="formulario-titulo">Actualizar Información de Tortuga</h2>
+        <p className="formulario-descripcion">
+          Modifica la información de la especie existente
+        </p>
+      </div>
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Especie"
-          value={especie}
-          onChange={(e) => setEspecie(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Alimentación"
-          value={alimentacion}
-          onChange={(e) => setAlimentacion(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Temperatura Ideal"
-          value={temperaturaIdeal}
-          onChange={(e) => setTemperaturaIdeal(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Humedad Ideal"
-          value={humedadIdeal}
-          onChange={(e) => setHumedadIdeal(e.target.value)}
-          required
-        />
-        <textarea
-          placeholder="Descripción"
-          value={descripcion}
-          onChange={(e) => setDescripcion(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          placeholder="URL de la Imagen"
-          value={imagen}
-          onChange={(e) => setImagen(e.target.value)}
-          required
-        />
-        <button type="submit">Actualizar Información</button>
+        <div className="formulario-campo">
+          <label htmlFor="especie" className="formulario-label">
+            Especie
+          </label>
+          <input
+            type="text"
+            id="especie"
+            value={especie}
+            onChange={(e) => setEspecie(e.target.value)}
+            className="formulario-input"
+            placeholder="Escribe el nombre de la especie"
+            required
+          />
+        </div>
+
+        <div className="formulario-campo">
+          <label htmlFor="descripcion" className="formulario-label">
+            Descripción
+          </label>
+          <textarea
+            id="descripcion"
+            value={descripcion}
+            onChange={(e) => setDescripcion(e.target.value)}
+            className="formulario-textarea"
+            placeholder="Escribe una descripción detallada de la especie"
+            required
+          />
+        </div>
+
+        <div className="formulario-campo">
+          <label htmlFor="alimentacion" className="formulario-label">
+            Alimentación
+          </label>
+          <textarea
+            id="alimentacion"
+            value={alimentacion}
+            onChange={(e) => setAlimentacion(e.target.value)}
+            className="formulario-textarea"
+            placeholder="Describe la dieta y hábitos alimenticios"
+            required
+          />
+        </div>
+
+        <div className="formulario-campo">
+          <label htmlFor="temperaturaIdeal" className="formulario-label">
+            Temperatura Ideal
+          </label>
+          <input
+            type="text"
+            id="temperaturaIdeal"
+            value={temperaturaIdeal}
+            onChange={(e) => setTemperaturaIdeal(e.target.value)}
+            className="formulario-input"
+            placeholder="Ejemplo: 25-30°C"
+            required
+          />
+        </div>
+
+        <div className="formulario-botones">
+          <Link to="/admin/informaciones" className="btn-cancelar">
+            Cancelar
+          </Link>
+          <button type="submit" className="btn-guardar" disabled={saving}>
+            {saving ? "Guardando..." : "Actualizar Información"}
+          </button>
+        </div>
       </form>
     </div>
   );

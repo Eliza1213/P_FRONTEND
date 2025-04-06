@@ -1,60 +1,77 @@
-/* Estilos generales */
+/* Estilos generales del Home */
 .home-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background-color: #f4f4f4;
 }
 
 .home-content {
-  flex: 1;
+  flex-grow: 1;
   padding: 2rem;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* Carrusel */
+.home-title {
+  font-size: 2.5rem;
+  color: #2e7d32;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Contenedor del Carrusel */
 .carrusel-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 2rem 0;
-  position: relative;
+  width: 100%;
+  max-width: 1200px;
 }
 
 .carrusel {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  perspective: 1000px;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
 }
 
+/* Botones de navegación */
 .nav-button {
-  background: #4CAF50;
-  color: white;
+  background-color: rgba(46, 125, 50, 0.1);
   border: none;
-  padding: 0.5rem 1rem;
-  font-size: 1.5rem;
-  cursor: pointer;
+  color: #2e7d32;
+  padding: 10px;
   border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
   margin: 0 1rem;
-  transition: all 0.3s;
 }
 
 .nav-button:hover {
-  background: #45a049;
+  background-color: rgba(46, 125, 50, 0.2);
   transform: scale(1.1);
 }
 
-/* Productos */
-.producto {
-  transition: all 0.5s ease;
-}
-
+/* Tarjeta de Producto */
 .producto-card {
-  background: white;
-  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 1rem;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  transition: all 0.3s;
+  width: 300px;
+  transition: all 0.3s ease;
+  text-align: center;
 }
 
 .producto-card.central {
@@ -62,51 +79,138 @@
   z-index: 10;
 }
 
-.producto-card:not(.central) {
+.producto-card.lateral {
   opacity: 0.7;
   transform: scale(0.9);
 }
 
 .producto-imagen {
-  width: 100%;
-  max-width: 200px;
-  height: auto;
+  max-width: 250px;
+  max-height: 250px;
+  object-fit: contain;
   border-radius: 8px;
-  object-fit: cover;
+  margin-bottom: 1rem;
+}
+
+.producto-card h3 {
+  color: #2e7d32;
+  margin-bottom: 0.5rem;
 }
 
 .detalles {
-  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.descripcion {
+  color: #666;
+  margin-bottom: 1rem;
+  max-height: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.producto-meta {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 1rem;
 }
 
 .precio {
-  font-weight: bold;
-  color: #4CAF50;
   font-size: 1.2rem;
+  font-weight: bold;
+  color: #2e7d32;
 }
 
-.comprar-btn {
-  background: #4CAF50;
-  color: white;
-  border: none;
+.stock {
+  color: #666;
+}
+
+.producto-acciones {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+
+.btn-detalles, .btn-comprar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-grow: 1;
   padding: 0.5rem 1rem;
-  border-radius: 5px;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
-  margin-top: 0.5rem;
-  transition: background 0.3s;
+  transition: all 0.3s ease;
 }
 
-.comprar-btn:hover {
-  background: #45a049;
+.btn-detalles {
+  background-color: #e0f2f1;
+  color: #00796b;
 }
 
-/* Estados */
-.loading, .error {
+.btn-detalles:hover {
+  background-color: #b2dfdb;
+}
+
+.btn-comprar {
+  background-color: #2e7d32;
+  color: white;
+}
+
+.btn-comprar:hover {
+  background-color: #1b5e20;
+}
+
+/* Estados de carga, error y vacío */
+.estado-contenedor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
   text-align: center;
   padding: 2rem;
-  font-size: 1.2rem;
 }
 
-.error {
-  color: #f44336;
+.estado-contenedor.error {
+  color: #d32f2f;
+}
+
+.spinner {
+  border: 4px solid rgba(46, 125, 50, 0.2);
+  border-top-color: #2e7d32;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .carrusel-container {
+    flex-direction: column;
+  }
+
+  .nav-button {
+    margin: 1rem 0;
+  }
+
+  .producto-card {
+    width: 250px;
+  }
+
+  .home-title {
+    font-size: 2rem;
+  }
 }

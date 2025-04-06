@@ -1,0 +1,455 @@
+/* Mejoras para el tamaño y distribución en el panel de administración */
+
+/* Estructura principal */
+.admin-container {
+    display: flex;
+    min-height: calc(100vh - 60px); /* Altura menos el header */
+  }
+  
+  /* Panel lateral */
+  .admin-nav {
+    width: 250px;
+    background-color: #f0f4e8;
+    border-right: 1px solid rgba(0,0,0,0.1);
+    flex-shrink: 0;
+  }
+  
+  /* Encabezado del panel lateral */
+  .admin-panel-title {
+    padding: 15px;
+    background-color: #8bc34a;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    text-align: center;
+  }
+  
+  /* Links del menú */
+  .nav-links {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  
+  .nav-links li {
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+  }
+  
+  .nav-links a {
+    display: block;
+    padding: 12px 15px;
+    color: #555;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  
+  .nav-links a:hover {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+  }
+  
+  .nav-links a.active {
+    background-color: #dcedc8;
+    color: #2e7d32;
+    font-weight: bold;
+  }
+  
+  /* Contenido principal */
+  .admin-content {
+    flex-grow: 1;
+    padding: 30px;
+    background-color: #f5f7f9;
+  }
+  
+  /* Estilos para el mensaje de bienvenida */
+  .welcome-container {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    text-align: center;
+    max-width: 800px;
+    margin: 50px auto;
+  }
+  
+  .welcome-container h1 {
+    color: #2e7d32;
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
+  
+  .welcome-container p {
+    color: #555;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+  }
+  
+  .welcome-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+  
+  .action-card {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 20px;
+    width: 200px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    color: #333;
+  }
+  
+  .action-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .action-icon {
+    font-size: 24px;
+    color: #8bc34a;
+    margin-bottom: 15px;
+  }
+  
+  .action-title {
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  
+  .action-description {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  /* Estilos responsivos */
+  @media (max-width: 768px) {
+    .admin-container {
+      flex-direction: column;
+    }
+    
+    .admin-nav {
+      width: 100%;
+      border-right: none;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+    
+    .welcome-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .action-card {
+      width: 100%;
+      max-width: 300px;
+    }
+  }
+
+  /* Cabecera de la sección */
+.usuarios-header {
+    margin-bottom: 25px;
+  }
+  
+  .usuarios-header h2 {
+    color: #2e7d32;
+    font-size: 24px;
+    margin: 0 0 10px 0;
+  }
+  
+  .usuarios-header p {
+    color: #666;
+    margin: 0;
+  }
+  
+  /* Contenedor de filtros */
+  .filtros-usuarios {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+  }
+  
+  .filtro-busqueda {
+    flex: 1;
+    min-width: 250px;
+  }
+  
+  .filtro-input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: all 0.3s;
+  }
+  
+  .filtro-input:focus {
+    border-color: #8bc34a;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(139, 195, 74, 0.2);
+  }
+  
+  .filtro-rol {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .filtro-rol label {
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  
+  .rol-select {
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+    min-width: 150px;
+  }
+  
+  /* Tabla de usuarios */
+  .tabla-usuarios-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+  }
+  
+  .tabla-usuarios {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .tabla-usuarios th, 
+  .tabla-usuarios td {
+    padding: 15px;
+    text-align: left;
+  }
+  
+  .tabla-usuarios th {
+    background-color: #f9f9f9;
+    font-weight: 600;
+    color: #555;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .tabla-usuarios tr {
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.2s;
+  }
+  
+  .tabla-usuarios tr:last-child {
+    border-bottom: none;
+  }
+  
+  .tabla-usuarios tr:hover {
+    background-color: #f5f5f5;
+  }
+  
+  /* Avatar de usuario */
+  .usuario-avatar {
+    width: 40px;
+    height: 40px;
+    background-color: #8bc34a;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 16px;
+  }
+  
+  /* Contenedor de información de usuario */
+  .usuario-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .usuario-detalles {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .usuario-nombre {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 3px;
+  }
+  
+  .usuario-username {
+    font-size: 13px;
+    color: #666;
+  }
+  
+  /* Estilo para los correos */
+  .usuario-contacto {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .email, .telefono {
+    font-size: 14px;
+    color: #555;
+  }
+  
+  /* Badges para los roles */
+  .rol-badge {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  
+  .rol-badge.admin {
+    background-color: #ffeacc;
+    color: #ff9800;
+    border: 1px solid #ffcc80;
+  }
+  
+  .rol-badge.usuario {
+    background-color: #e8f5e9;
+    color: #4caf50;
+    border: 1px solid #a5d6a7;
+  }
+  
+  /* Botones de acción */
+  .acciones-container {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .btn-accion {
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    text-decoration: none;
+    text-align: center;
+  }
+  
+  .btn-cambiar-rol {
+    background-color: #f1f8e9;
+    color: #689f38;
+    border: 1px solid #aed581;
+  }
+  
+  .btn-cambiar-rol:hover {
+    background-color: #dcedc8;
+  }
+  
+  .btn-editar {
+    background-color: #e3f2fd;
+    color: #1976d2;
+    border: 1px solid #bbdefb;
+  }
+  
+  .btn-editar:hover {
+    background-color: #bbdefb;
+  }
+  
+  /* Mensaje cuando no hay usuarios */
+  .no-usuarios {
+    background-color: white;
+    border-radius: 8px;
+    padding: 30px 20px;
+    text-align: center;
+    color: #666;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+  
+  /* Estado de carga */
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 0;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+  
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(139, 195, 74, 0.2);
+    border-top-color: #8bc34a;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 15px;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
+  /* Paginación */
+  .paginacion {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 10px;
+  }
+  
+  .pagina-btn {
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .pagina-btn:hover:not(:disabled) {
+    background-color: #f5f5f5;
+  }
+  
+  .pagina-btn.activo {
+    background-color: #8bc34a;
+    color: white;
+    border-color: #8bc34a;
+  }
+  
+  .pagina-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  /* Estilos responsivos */
+  @media (max-width: 768px) {
+    .filtros-usuarios {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    
+    .filtro-rol {
+      width: 100%;
+    }
+    
+    .tabla-usuarios td:nth-child(2) {
+      display: none;
+    }
+    
+    .acciones-container {
+      flex-direction: column;
+    }
+    
+    .btn-accion {
+      width: 100%;
+    }
+  }

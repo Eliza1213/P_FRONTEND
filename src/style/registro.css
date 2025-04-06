@@ -1,112 +1,442 @@
 /* Estilos Generales */
-body {
-    font-family: Arial, Roboto, sans-serif;
-    font-size: 1rem;
-    background-color: #f0f8f5;
-    color: #333333;
-    margin: 0;
-    padding: 0;
-}
-
-/* Contenedor del formulario */
-.form-container {
+:root {
+    --primary-color: #2a7f68;
+    --primary-hover: #1d6552;
+    --secondary-color: #e7f6f2;
+    --cancel-color: #6c757d;
+    --cancel-hover: #5a6268;
+    --error-color: #dc3545;
+    --success-color: #28a745;
+    --text-color: #333;
+    --light-text: #6c757d;
+    --border-color: #ced4da;
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --transition-speed: 0.3s;
+  }
+  
+  /* Contenedor principal */
+  .register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    padding: 2rem;
+  }
+  
+  .form-container {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: var(--box-shadow);
+    width: 100%;
+    max-width: 700px;
+    padding: 2rem;
+    margin: 2rem 0;
+  }
+  
+  /* Encabezado */
+  .form-container h2 {
+    color: var(--primary-color);
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    position: relative;
+  }
+  
+  .form-container h2::after {
+    content: '';
+    position: absolute;
+    bottom: -0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background-color: var(--primary-color);
+    border-radius: 2px;
+  }
+  
+  /* Indicador de progreso */
+  .progress-container {
+    margin-bottom: 2rem;
+  }
+  
+  .steps-indicators {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+  }
+  
+  .step-indicator {
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
+    flex: 1;
+    cursor: pointer;
+  }
+  
+  .step-number {
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: #e9ecef;
+    border-radius: 50%;
+    display: flex;
     justify-content: center;
-    min-height: 50vh;
-}
-
-/* Centrar el título */
-h2 {
-    text-align: center;
-    font-size: 1.5rem;
-    color: #2a7f68;
-    margin-bottom: 0.4rem;
-}
-
-/* Formulario */
-form {
-    background-color: #ffffff;
-    border: 1px solid #cccccc;
-    padding: 2.5rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    width: 100%;
-    margin-top: 0; /* Quitar margen extra arriba del formulario */
-}
-
-label {
-    display: block;
-    font-size: 1rem;
+    align-items: center;
     font-weight: bold;
     margin-bottom: 0.5rem;
-    color: #2a7f68;
-}
-
-input, textarea, select {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #cccccc;
-    border-radius: 4px;
-    font-size: 1rem;
-    margin-bottom: 1rem;
-    box-sizing: border-box;
-}
-
-input:focus, textarea:focus, select:focus {
-    border-color: #2a7f68;
-    outline: none;
-    box-shadow: 0 0 5px rgba(42, 127, 104, 0.5);
-}
-
-/* Botones */
-button {
-    font-size: 1rem;
-    font-weight: bold;
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button[type="submit"] {
-    background-color: #2a7f68;
-    color: #cccccc;
-}
-
-button[type="submit"]:hover {
-    background-color: #4caf92;
-}
-
-button.cancel {
-    background-color: #e0e0e0;
-    color: #333333;
-}
-
-button.cancel:hover {
-    background-color: #cccccc;
-}
-
-/* Casilla de verificación */
-input[type="checkbox"] {
-    accent-color: #2a7f68;
-    transform: scale(1.2);
-    margin-right: 0.5rem;
-}
-
-/* Contenedor de los pasos del formulario */
-.step-container {
+    color: var(--light-text);
+    transition: all var(--transition-speed) ease;
+  }
+  
+  .step-name {
+    font-size: 0.9rem;
+    color: var(--light-text);
+    text-align: center;
+    transition: all var(--transition-speed) ease;
+  }
+  
+  .step-indicator.active .step-number {
+    background-color: var(--primary-color);
+    color: white;
+  }
+  
+  .step-indicator.active .step-name {
+    color: var(--primary-color);
+    font-weight: 600;
+  }
+  
+  .step-indicator.completed .step-number {
+    background-color: var(--success-color);
+    color: white;
+  }
+  
+  .progress-bar {
+    height: 0.5rem;
+    background-color: #e9ecef;
+    border-radius: 1rem;
+    overflow: hidden;
+  }
+  
+  .progress {
+    height: 100%;
+    background-color: var(--primary-color);
+    transition: width 0.5s ease;
+  }
+  
+  /* Formulario */
+  .register-form {
+    margin-top: 1.5rem;
+  }
+  
+  .form-step {
+    animation: fadeIn 0.5s ease;
+  }
+  
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-color);
+  }
+  
+  /* Contenedor de entrada con espaciado mejorado para iconos */
+  .input-container {
+    position: relative;
     display: flex;
-    flex-direction: column;
     align-items: center;
-}
-
-/* Espaciado y Márgenes */
-.container {
-    padding: 1rem;
-    max-width: 700px;
-    margin: 0 auto;
-}
+  }
+  
+  /* Iconos con mayor espaciado */
+  .input-icon {
+    position: absolute;
+    left: -1.2rem; /* Aumentado para dar más espacio */
+    color: var(--light-text);
+    font-size: 0.9rem; /* Tamaño reducido para que no estorben tanto */
+  }
+  
+  /* Entradas con padding izquierdo aumentado */
+  .input-container input,
+  .input-container select {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 4rem; /* Padding izquierdo aumentado */
+    font-size: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+  }
+  
+  .input-container input:focus,
+  .input-container select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(42, 127, 104, 0.25);
+  }
+  
+  .toggle-password {
+    position: absolute;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: var(--light-text);
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0;
+  }
+  
+  .toggle-password:hover {
+    color: var(--primary-color);
+  }
+  
+  /* Validación de contraseña */
+  .password-strength {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: var(--light-text);
+  }
+  
+  .password-strength p {
+    margin-bottom: 0.5rem;
+  }
+  
+  .password-strength ul {
+    list-style: none;
+    padding-left: 0.5rem;
+  }
+  
+  .password-strength li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.25rem;
+    color: var(--light-text);
+  }
+  
+  .check-icon {
+    display: inline-flex;
+    visibility: hidden;
+    color: var(--success-color);
+    margin-right: 0.5rem;
+  }
+  
+  .password-strength li.valid {
+    color: var(--success-color);
+  }
+  
+  .password-strength li.valid .check-icon {
+    visibility: visible;
+  }
+  
+  .password-match {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .password-match.valid {
+    color: var(--success-color);
+  }
+  
+  .password-match.invalid {
+    color: var(--error-color);
+  }
+  
+  /* Checkbox personalizado */
+  .checkbox-group {
+    margin-top: 2rem;
+  }
+  
+  .checkbox-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-left: 2.5rem;
+    cursor: pointer;
+    user-select: none;
+    font-weight: normal;
+  }
+  
+  .checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 1.5rem;
+    width: 1.5rem;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+  }
+  
+  .checkbox-container:hover input ~ .checkmark {
+    background-color: #f8f9fa;
+  }
+  
+  .checkbox-container input:checked ~ .checkmark {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+  
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  .checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  .checkbox-container .checkmark:after {
+    left: 0.5rem;
+    top: 0.25rem;
+    width: 0.5rem;
+    height: 0.75rem;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+  }
+  
+  .terms-text {
+    font-size: 1rem;
+  }
+  
+  .terms-text a {
+    color: var(--primary-color);
+    text-decoration: none;
+  }
+  
+  .terms-text a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Botones */
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+  }
+  
+  .button-container button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+  }
+  
+  .next-button, .submit-button {
+    background-color: var(--primary-color);
+    color: white;
+  }
+  
+  .next-button:hover, .submit-button:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+  }
+  
+  .cancel-button {
+    background-color: var(--cancel-color);
+    color: white;
+  }
+  
+  .cancel-button:hover {
+    background-color: var(--cancel-hover);
+    transform: translateY(-2px);
+  }
+  
+  /* Link de inicio de sesión */
+  .login-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 1rem;
+    color: var(--light-text);
+  }
+  
+  .login-link a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  
+  .login-link a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Animaciones */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .form-container {
+      padding: 1.5rem;
+      margin: 1rem 0;
+    }
+    
+    .step-name {
+      font-size: 0.75rem;
+    }
+    
+    .button-container {
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .button-container button {
+      width: 100%;
+    }
+    
+    .cancel-button {
+      order: 2;
+    }
+    
+    .next-button, .submit-button {
+      order: 1;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .form-container h2 {
+      font-size: 1.5rem;
+    }
+    
+    .step-number {
+      width: 2rem;
+      height: 2rem;
+    }
+    
+    .step-name {
+      display: none;
+    }
+    
+    .form-group label {
+      font-size: 0.9rem;
+    }
+    
+    .input-container input,
+    .input-container select {
+      padding: 0.6rem 1rem 0.6rem 4rem;
+      font-size: 0.9rem;
+    }
+  }
