@@ -14,7 +14,7 @@ const ListarProductos = () => {
     const fetchProductos = async () => {
       try {
         setLoading(true);
-        const response = await fetch("http://localhost:4000/api/productos");
+        const response = await fetch("https://mi-proyecto-virid.vercel.app/api/productos");
         if (!response.ok) throw new Error("Error al obtener productos");
         const data = await response.json();
         setProductos(data || []);
@@ -50,7 +50,7 @@ const ListarProductos = () => {
 
     if (confirmacion.isConfirmed) {
       try {
-        const response = await fetch(`http://localhost:4000/api/productos/${id}`, {
+        const response = await fetch(`https://mi-proyecto-virid.vercel.app/api/productos/${id}`, {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

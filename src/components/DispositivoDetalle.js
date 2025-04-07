@@ -18,7 +18,7 @@ const DispositivoDetalle = () => {
       try {
         // Obtener los detalles del dispositivo
         const respDispositivo = await axios.get(
-          `http://localhost:4000/api/dispositivos/mis-dispositivos`,
+          `https://mi-proyecto-virid.vercel.app/api/dispositivos/mis-dispositivos`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -40,7 +40,7 @@ const DispositivoDetalle = () => {
         // Obtener los datos del sensor (si existen)
         if (disp.activo) {
           const respDatos = await axios.get(
-            `http://localhost:4000/api/dispositivos/datos/${id}`,
+            `https://mi-proyecto-virid.vercel.app/api/dispositivos/datos/${id}`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -73,7 +73,7 @@ const DispositivoDetalle = () => {
       if (result.isConfirmed) {
         try {
           await axios.post(
-            `http://localhost:4000/api/dispositivos/desactivar/${id}`,
+            `https://mi-proyecto-virid.vercel.app/api/dispositivos/desactivar/${id}`,
             {},
             {
               headers: {

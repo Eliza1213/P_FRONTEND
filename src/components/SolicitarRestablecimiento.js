@@ -28,7 +28,7 @@ const SolicitarRestablecimiento = () => {
     setLoading(true);
     
     try {
-      const response = await axios.post("http://localhost:4000/api/usuarios/solicitar-restablecimiento", { email });
+      const response = await axios.post("https://mi-proyecto-virid.vercel.app/api/usuarios/solicitar-restablecimiento", { email });
       Swal.fire({
         icon: "success",
         title: "Solicitud Enviada",

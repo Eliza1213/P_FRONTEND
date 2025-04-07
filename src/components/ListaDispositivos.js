@@ -22,7 +22,7 @@ const ListaDispositivos = () => {
         
         // Primero, vamos a cargar todos los usuarios para tener el mapeo completo
         console.log("Cargando usuarios...");
-        const responseUsuarios = await fetch("http://localhost:4000/api/usuarios", {
+        const responseUsuarios = await fetch("https://mi-proyecto-virid.vercel.app/api/usuarios", {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -45,7 +45,7 @@ const ListaDispositivos = () => {
         
         // Ahora cargamos los productos
         console.log("Cargando productos...");
-        const responseProductos = await fetch("http://localhost:4000/api/productos", {
+        const responseProductos = await fetch("https://mi-proyecto-virid.vercel.app/api/productos", {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -67,7 +67,7 @@ const ListaDispositivos = () => {
         
         // Finalmente, cargamos los dispositivos
         console.log("Cargando dispositivos...");
-        const responseDispositivos = await fetch("http://localhost:4000/api/dispositivos/admin/listar", {
+        const responseDispositivos = await fetch("https://mi-proyecto-virid.vercel.app/api/dispositivos/admin/listar", {
           headers: {
             Authorization: `Bearer ${token}`
           }

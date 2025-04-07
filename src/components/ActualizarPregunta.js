@@ -15,7 +15,7 @@ const ActualizarPregunta = () => {
     const fetchPregunta = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`http://localhost:4000/api/preguntas/${id}`);
+        const response = await fetch(`https://mi-proyecto-virid.vercel.app/api/preguntas/${id}`);
         if (!response.ok) throw new Error("Error al obtener la pregunta");
         
         const data = await response.json();
@@ -53,7 +53,7 @@ const ActualizarPregunta = () => {
 
     try {
       setSaving(true);
-      const response = await fetch(`http://localhost:4000/api/preguntas/${id}`, {
+      const response = await fetch(`https://mi-proyecto-virid.vercel.app/api/preguntas/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

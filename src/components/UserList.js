@@ -9,7 +9,7 @@ const UserList = () => {
     const fetchUsuarios = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get("http://localhost:4000/api/usuarios/admin/usuarios", {
+        const response = await axios.get("https://mi-proyecto-virid.vercel.app/api/usuarios/admin/usuarios", {
           headers: { Authorization: token },
         });
         setUsuarios(response.data);
@@ -26,7 +26,7 @@ const UserList = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.put(
-        `http://localhost:4000/api/admin/usuarios/${id}/rol`,
+        `https://mi-proyecto-virid.vercel.app/api/admin/usuarios/${id}/rol`,
         { rol: nuevoRol },
         { headers: { Authorization: token } }
       );
@@ -40,7 +40,7 @@ const UserList = () => {
   const handleDelete = async (id) => {
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:4000/api/usuarios/admin/usuarios${id}`, {
+      await axios.delete(`https://mi-proyecto-virid.vercel.app/api/usuarios/admin/usuarios${id}`, {
         headers: { Authorization: token },
       });
       setUsuarios(usuarios.filter(usuario => usuario._id !== id));

@@ -22,7 +22,7 @@ const ActivarDispositivo = () => {
         console.log("Token para obtener productos:", token ? "Presente" : "Ausente");
 
         // Obtener productos que son IoT
-        const response = await axios.get("http://localhost:4000/api/productos", {
+        const response = await axios.get("https://mi-proyecto-virid.vercel.app/api/productos", {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -94,7 +94,7 @@ const ActivarDispositivo = () => {
       const token = localStorage.getItem("token");
       console.log("Token de autenticación:", token ? "Presente" : "Ausente");
       
-      const verificacionUrl = `http://localhost:4000/api/dispositivos/verificar-disponibilidad/${productoId}`;
+      const verificacionUrl = `https://mi-proyecto-virid.vercel.app/api/dispositivos/verificar-disponibilidad/${productoId}`;
       console.log("URL de verificación:", verificacionUrl);
       
       const verificacion = await axios.get(
@@ -118,7 +118,7 @@ const ActivarDispositivo = () => {
       }
 
       console.log("Dispositivo disponible, procediendo con la activación...");
-      const activacionUrl = "http://localhost:4000/api/dispositivos/activar";
+      const activacionUrl = "https://mi-proyecto-virid.vercel.app/api/dispositivos/activar";
       console.log("URL de activación:", activacionUrl);
       console.log("Datos a enviar:", { productoId, identificadorIoT });
       

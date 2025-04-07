@@ -14,7 +14,7 @@ const MisionesVisualizar = () => {
   // Fetch de misiones con useCallback para optimización
   const fetchMisiones = useCallback(async () => {
     try {
-      const response = await fetch("http://localhost:4000/api/misiones");
+      const response = await fetch("https://mi-proyecto-virid.vercel.app/api/misiones");
       if (!response.ok) {
         throw new Error("Error al obtener misiones");
       }

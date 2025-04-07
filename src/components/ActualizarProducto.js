@@ -20,7 +20,7 @@ const ActualizarProducto = () => {
     const fetchProducto = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`http://localhost:4000/api/productos/${id}`);
+        const response = await fetch(`https://mi-proyecto-virid.vercel.app/api/productos/${id}`);
         if (!response.ok) throw new Error("Error al obtener el producto");
         
         const data = await response.json();
@@ -121,7 +121,7 @@ const ActualizarProducto = () => {
         identificadorIoT: esIoT ? identificadorIoT : null
       };
 
-      const response = await fetch(`http://localhost:4000/api/productos/${id}`, {
+      const response = await fetch(`https://mi-proyecto-virid.vercel.app/api/productos/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

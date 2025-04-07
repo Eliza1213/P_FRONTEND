@@ -12,7 +12,7 @@ const ListarVisiones = () => {
     const fetchVisiones = async () => {
       try {
         setLoading(true);
-        const response = await fetch("http://localhost:4000/api/visiones");
+        const response = await fetch("https://mi-proyecto-virid.vercel.app/api/visiones");
         if (!response.ok) throw new Error("Error al obtener visiones");
         const data = await response.json();
         setVisiones(data);
@@ -46,7 +46,7 @@ const ListarVisiones = () => {
 
     if (confirmacion.isConfirmed) {
       try {
-        const response = await fetch(`http://localhost:4000/api/visiones/${id}`, {
+        const response = await fetch(`https://mi-proyecto-virid.vercel.app/api/visiones/${id}`, {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

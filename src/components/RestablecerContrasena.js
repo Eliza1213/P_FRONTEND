@@ -51,7 +51,7 @@ const RestablecerContrasena = () => {
   
     try {
       setLoading(true);
-      const response = await axios.post("http://localhost:4000/api/usuarios/restablecer-contrasena", {
+      const response = await axios.post("https://mi-proyecto-virid.vercel.app/api/usuarios/restablecer-contrasena", {
         token,
         nuevaPassword,
       });

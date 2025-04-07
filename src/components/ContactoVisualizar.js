@@ -36,7 +36,7 @@ const ContactoVisualizar = () => {
   // Fetch de contactos con useCallback para optimización
   const fetchContactos = useCallback(async () => {
     try {
-      const response = await fetch("http://localhost:4000/api/contactos");
+      const response = await fetch("https://mi-proyecto-virid.vercel.app/api/contactos");
       if (!response.ok) {
         throw new Error("Error al obtener contactos");
       }

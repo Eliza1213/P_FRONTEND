@@ -20,7 +20,7 @@ const ProductosList = ({ isUserAuthenticated = false, modo = "publico" }) => {
   const fetchProductos = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:4000/api/productos");
+      const response = await fetch("https://mi-proyecto-virid.vercel.app/api/productos");
       if (!response.ok) {
         throw new Error("Error al obtener productos");
       }
@@ -74,7 +74,7 @@ const ProductosList = ({ isUserAuthenticated = false, modo = "publico" }) => {
         try {
           // Verificar disponibilidad del dispositivo IoT
           const verificacion = await axios.get(
-            `http://localhost:4000/api/dispositivos/verificar-disponibilidad/${producto._id}`,
+            `https://mi-proyecto-virid.vercel.app/api/dispositivos/verificar-disponibilidad/${producto._id}`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`

@@ -10,7 +10,7 @@ const FooterUser = () => {
   const [contactos, setContactos] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:4000/api/contactos")
+    fetch("https://mi-proyecto-virid.vercel.app/api/contactos")
       .then((response) => response.json())
       .then((data) => setContactos(data))
       .catch((error) => console.error("Error:", error));

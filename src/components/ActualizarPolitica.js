@@ -15,7 +15,7 @@ const ActualizarPolitica = () => {
     const fetchPolitica = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`http://localhost:4000/api/politicas/${id}`);
+        const response = await fetch(`https://mi-proyecto-virid.vercel.app/api/politicas/${id}`);
         if (!response.ok) throw new Error("Error al obtener la política");
         
         const data = await response.json();
@@ -53,7 +53,7 @@ const ActualizarPolitica = () => {
 
     try {
       setSaving(true);
-      const response = await fetch(`http://localhost:4000/api/politicas/${id}`, {
+      const response = await fetch(`https://mi-proyecto-virid.vercel.app/api/politicas/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

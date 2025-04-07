@@ -19,7 +19,7 @@ const AdminProfile = () => {
           return;
         }
 
-        const response = await fetch("http://localhost:4000/api/usuarios/perfil", {
+        const response = await fetch("https://mi-proyecto-virid.vercel.app/api/usuarios/perfil", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -57,7 +57,7 @@ const AdminProfile = () => {
     
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:4000/api/usuarios/perfil", {
+      const response = await fetch("https://mi-proyecto-virid.vercel.app/api/usuarios/perfil", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -117,7 +117,7 @@ const AdminProfile = () => {
     if (formValues) {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch("http://localhost:4000/api/usuarios/cambiar-password", {
+        const response = await fetch("https://mi-proyecto-virid.vercel.app/api/usuarios/cambiar-password", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

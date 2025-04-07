@@ -17,7 +17,7 @@ const ActualizarContacto = () => {
     const fetchContacto = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`http://localhost:4000/api/contactos/${id}`);
+        const response = await fetch(`https://mi-proyecto-virid.vercel.app/api/contactos/${id}`);
         if (!response.ok) throw new Error("Error al obtener el contacto");
         
         const data = await response.json();
@@ -111,7 +111,7 @@ const ActualizarContacto = () => {
         redes_sociales: redesSociales,
       };
 
-      const response = await fetch(`http://localhost:4000/api/contactos/${id}`, {
+      const response = await fetch(`https://mi-proyecto-virid.vercel.app/api/contactos/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

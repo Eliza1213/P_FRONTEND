@@ -24,7 +24,7 @@ const CrearMision = () => {
 
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:4000/api/misiones", {
+      const response = await fetch("https://mi-proyecto-virid.vercel.app/api/misiones", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

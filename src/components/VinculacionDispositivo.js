@@ -18,7 +18,7 @@ const VinculacionDispositivo = () => {
     setCargando(true);
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:4000/api/usuarios/dispositivos/mis-dispositivos', {
+      const response = await fetch('https://mi-proyecto-virid.vercel.app/api/usuarios/dispositivos/mis-dispositivos', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -57,7 +57,7 @@ const VinculacionDispositivo = () => {
     try {
       setCargando(true);
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:4000/api/usuarios/dispositivos/vincular', {
+      const response = await fetch('https://mi-proyecto-virid.vercel.app/api/usuarios/dispositivos/vincular', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -100,7 +100,7 @@ const VinculacionDispositivo = () => {
       setCargando(true);
       const token = localStorage.getItem('token');
       const response = await fetch(
-        `http://localhost:4000/api/usuarios/dispositivos/${dispositivo._id}/activar`,
+        `https://mi-proyecto-virid.vercel.app/api/usuarios/dispositivos/${dispositivo._id}/activar`,
         {
           method: 'PUT',
           headers: {

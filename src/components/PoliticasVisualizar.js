@@ -14,7 +14,7 @@ const PoliticasVisualizar = () => {
   // Fetch de políticas con useCallback para optimización
   const fetchPoliticas = useCallback(async () => {
     try {
-      const response = await fetch("http://localhost:4000/api/politicas");
+      const response = await fetch("https://mi-proyecto-virid.vercel.app/api/politicas");
       if (!response.ok) {
         throw new Error("Error al obtener políticas");
       }

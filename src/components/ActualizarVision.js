@@ -15,7 +15,7 @@ const ActualizarVision = () => {
     const fetchVision = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`http://localhost:4000/api/visiones/${id}`);
+        const response = await fetch(`https://mi-proyecto-virid.vercel.app/api/visiones/${id}`);
         if (!response.ok) throw new Error("Error al obtener la visión");
         
         const data = await response.json();
@@ -53,7 +53,7 @@ const ActualizarVision = () => {
 
     try {
       setSaving(true);
-      const response = await fetch(`http://localhost:4000/api/visiones/${id}`, {
+      const response = await fetch(`https://mi-proyecto-virid.vercel.app/api/visiones/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

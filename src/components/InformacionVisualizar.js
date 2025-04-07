@@ -13,7 +13,7 @@ const InformacionVisualizar = () => {
   const fetchInformacion = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:4000/api/informaciones");
+      const response = await fetch("https://mi-proyecto-virid.vercel.app/api/informaciones");
       
       if (!response.ok) {
         throw new Error("Error al obtener información sobre tortugas");

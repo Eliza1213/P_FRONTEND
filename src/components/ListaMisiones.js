@@ -12,7 +12,7 @@ const ListarMisiones = () => {
     const fetchMisiones = async () => {
       try {
         setLoading(true);
-        const response = await fetch("http://localhost:4000/api/misiones");
+        const response = await fetch("https://mi-proyecto-virid.vercel.app/api/misiones");
         if (!response.ok) throw new Error("Error al obtener misiones");
         const data = await response.json();
         setMisiones(data);
@@ -46,7 +46,7 @@ const ListarMisiones = () => {
 
     if (confirmacion.isConfirmed) {
       try {
-        const response = await fetch(`http://localhost:4000/api/misiones/${id}`, {
+        const response = await fetch(`https://mi-proyecto-virid.vercel.app/api/misiones/${id}`, {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

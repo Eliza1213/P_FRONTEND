@@ -15,7 +15,7 @@ const ActualizarMision = () => {
     const fetchMision = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`http://localhost:4000/api/misiones/${id}`);
+        const response = await fetch(`https://mi-proyecto-virid.vercel.app/api/misiones/${id}`);
         if (!response.ok) throw new Error("Error al obtener la misión");
         
         const data = await response.json();
@@ -53,7 +53,7 @@ const ActualizarMision = () => {
 
     try {
       setSaving(true);
-      const response = await fetch(`http://localhost:4000/api/misiones/${id}`, {
+      const response = await fetch(`https://mi-proyecto-virid.vercel.app/api/misiones/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

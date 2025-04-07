@@ -17,7 +17,7 @@ const ActualizarInformacion = () => {
     const fetchInformacion = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`http://localhost:4000/api/informaciones/${id}`);
+        const response = await fetch(`https://mi-proyecto-virid.vercel.app/api/informaciones/${id}`);
         if (!response.ok) throw new Error("Error al obtener la información");
         
         const data = await response.json();
@@ -65,7 +65,7 @@ const ActualizarInformacion = () => {
         temperatura_ideal: temperaturaIdeal
       };
 
-      const response = await fetch(`http://localhost:4000/api/informaciones/${id}`, {
+      const response = await fetch(`https://mi-proyecto-virid.vercel.app/api/informaciones/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

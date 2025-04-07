@@ -20,7 +20,7 @@ const UserProfile = () => {
 
       try {
         setLoading(true);
-        const response = await fetch("http://localhost:4000/api/usuarios/perfil", {
+        const response = await fetch("https://mi-proyecto-virid.vercel.app/api/usuarios/perfil", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -58,7 +58,7 @@ const UserProfile = () => {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch("http://localhost:4000/api/usuarios/perfil", {
+      const response = await fetch("https://mi-proyecto-virid.vercel.app/api/usuarios/perfil", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

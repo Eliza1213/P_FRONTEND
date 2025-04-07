@@ -12,7 +12,7 @@ const ListarContactos = () => {
     const fetchContactos = async () => {
       try {
         setLoading(true);
-        const response = await fetch("http://localhost:4000/api/contactos");
+        const response = await fetch("https://mi-proyecto-virid.vercel.app/api/contactos");
         if (!response.ok) throw new Error("Error al obtener contactos");
         const data = await response.json();
         setContactos(data || []); // Asegura que sea un arreglo incluso si es null
@@ -47,7 +47,7 @@ const ListarContactos = () => {
 
     if (confirmacion.isConfirmed) {
       try {
-        const response = await fetch(`http://localhost:4000/api/contactos/${id}`, {
+        const response = await fetch(`https://mi-proyecto-virid.vercel.app/api/contactos/${id}`, {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

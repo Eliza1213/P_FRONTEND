@@ -23,7 +23,7 @@ const ActualizarUsuario = () => {
     const obtenerUsuario = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch(`http://localhost:4000/api/usuarios/${id}`, {
+        const response = await fetch(`https://mi-proyecto-virid.vercel.app/api/usuarios/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -61,7 +61,7 @@ const ActualizarUsuario = () => {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:4000/api/usuarios/${id}`, {
+      const response = await fetch(`https://mi-proyecto-virid.vercel.app/api/usuarios/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

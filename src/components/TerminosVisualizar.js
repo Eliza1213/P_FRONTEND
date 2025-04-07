@@ -14,7 +14,7 @@ const TerminosVisualizar = () => {
   // Fetch de términos con useCallback para optimización
   const fetchTerminos = useCallback(async () => {
     try {
-      const response = await fetch("http://localhost:4000/api/terminos");
+      const response = await fetch("https://mi-proyecto-virid.vercel.app/api/terminos");
       if (!response.ok) {
         throw new Error("Error al obtener términos");
       }

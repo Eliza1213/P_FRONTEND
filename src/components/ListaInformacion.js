@@ -14,7 +14,7 @@ const ListarInformacion = () => {
     const fetchInformaciones = async () => {
       try {
         setLoading(true);
-        const response = await fetch("http://localhost:4000/api/informaciones");
+        const response = await fetch("https://mi-proyecto-virid.vercel.app/api/informaciones");
         if (!response.ok) throw new Error("Error al obtener información");
         const data = await response.json();
         setInformaciones(data || []);
@@ -50,7 +50,7 @@ const ListarInformacion = () => {
 
     if (confirmacion.isConfirmed) {
       try {
-        const response = await fetch(`http://localhost:4000/api/informaciones/${id}`, {
+        const response = await fetch(`https://mi-proyecto-virid.vercel.app/api/informaciones/${id}`, {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

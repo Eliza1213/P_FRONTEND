@@ -19,7 +19,7 @@ const Home = () => {
   // Fetch de productos con useCallback para optimización
   const fetchProductos = useCallback(async () => {
     try {
-      const response = await fetch("http://localhost:4000/api/productos");
+      const response = await fetch("https://mi-proyecto-virid.vercel.app/api/productos");
       if (!response.ok) {
         throw new Error("Error al obtener productos");
       }

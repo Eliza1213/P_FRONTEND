@@ -4,7 +4,7 @@ const ProductosVisualizar = () => {
     const [productos, setProductos] = useState([]);
   
     useEffect(() => {
-      fetch("http://localhost:4000/api/productos") // Llamada al backend
+      fetch("https://mi-proyecto-virid.vercel.app/api/productos") // Llamada al backend
         .then((response) => response.json())
         .then((data) => setProductos(data))
         .catch((error) => console.error("Error al obtener productos:", error));

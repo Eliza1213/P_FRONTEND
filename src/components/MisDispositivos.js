@@ -19,7 +19,7 @@ const MisDispositivos = () => {
     const obtenerDispositivos = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/dispositivos/mis-dispositivos",
+          "https://mi-proyecto-virid.vercel.app/api/dispositivos/mis-dispositivos",
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -50,7 +50,7 @@ const MisDispositivos = () => {
       if (result.isConfirmed) {
         try {
           await axios.post(
-            `http://localhost:4000/api/dispositivos/desactivar/${dispositivoId}`,
+            `https://mi-proyecto-virid.vercel.app/api/dispositivos/desactivar/${dispositivoId}`,
             {},
             {
               headers: {

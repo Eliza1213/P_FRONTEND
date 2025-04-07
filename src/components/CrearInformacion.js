@@ -34,7 +34,7 @@ const CrearInformacion = () => {
         temperatura_ideal: temperaturaIdeal
       };
 
-      const response = await fetch("http://localhost:4000/api/informaciones", {
+      const response = await fetch("https://mi-proyecto-virid.vercel.app/api/informaciones", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

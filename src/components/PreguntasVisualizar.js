@@ -15,7 +15,7 @@ const PreguntasVisualizar = () => {
   // Fetch de preguntas con useCallback para optimización
   const fetchPreguntas = useCallback(async () => {
     try {
-      const response = await fetch("http://localhost:4000/api/preguntas");
+      const response = await fetch("https://mi-proyecto-virid.vercel.app/api/preguntas");
       if (!response.ok) {
         throw new Error("Error al obtener preguntas");
       }

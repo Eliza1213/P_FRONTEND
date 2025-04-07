@@ -15,7 +15,7 @@ const ActualizarTermino = () => {
     const fetchTermino = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`http://localhost:4000/api/terminos/${id}`);
+        const response = await fetch(`https://mi-proyecto-virid.vercel.app/api/terminos/${id}`);
         if (!response.ok) throw new Error("Error al obtener el término");
         
         const data = await response.json();
@@ -53,7 +53,7 @@ const ActualizarTermino = () => {
 
     try {
       setSaving(true);
-      const response = await fetch(`http://localhost:4000/api/terminos/${id}`, {
+      const response = await fetch(`https://mi-proyecto-virid.vercel.app/api/terminos/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
